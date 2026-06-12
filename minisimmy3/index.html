@@ -11,6 +11,7 @@
   <style>
     .modal { box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4); }
     .inspector-label { font-size: 10px; letter-spacing: 0.5px; color: #64748b; text-transform: uppercase; }
+    .top-stat { transition: all 0.1s ease; }
   </style>
 </head>
 <body class="bg-[#0a0a0f] text-[#e0e0ea]">
@@ -24,18 +25,18 @@
           </div>
           <div>
             <span class="font-display text-3xl tracking-tighter font-semibold">MiniSimmy3</span>
-            <span class="ml-2 text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full font-mono">v0.23</span>
+            <span class="ml-2 text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full font-mono">v0.25</span>
           </div>
         </div>
       </div>
 
       <div class="flex items-center gap-x-6 text-sm">
         <div class="flex items-center gap-x-4">
-          <div class="flex items-baseline gap-x-1.5">
+          <div class="flex items-baseline gap-x-1.5 top-stat">
             <span class="text-white/50 text-xs">POP</span>
             <span id="stat-pop" class="font-mono font-semibold text-emerald-400 text-lg">18</span>
           </div>
-          <div class="flex items-baseline gap-x-1.5">
+          <div class="flex items-baseline gap-x-1.5 top-stat">
             <span class="text-white/50 text-xs">TIME</span>
             <span id="stat-time" class="font-mono font-semibold text-emerald-400 text-lg">00:00</span>
           </div>
@@ -44,11 +45,11 @@
         <div class="h-5 w-px bg-white/10"></div>
 
         <div class="flex items-center gap-x-4">
-          <div class="flex items-baseline gap-x-1.5">
+          <div class="flex items-baseline gap-x-1.5 top-stat">
             <span class="text-white/50 text-xs">HRP</span>
             <span id="stat-score" class="font-mono font-semibold text-amber-400 text-lg">0</span>
           </div>
-          <div class="flex items-baseline gap-x-1.5">
+          <div class="flex items-baseline gap-x-1.5 top-stat">
             <span class="text-pink-400/70 text-xs">AETH</span>
             <span id="stat-crystals" class="font-mono font-semibold text-pink-400 text-lg">0</span>
           </div>

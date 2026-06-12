@@ -1,4 +1,4 @@
-// MiniSimmy3 - Core (Chunk 23 - Visual polish)
+// MiniSimmy3 - Core (Chunk 25 - More visual polish)
 
 let creatures = [];
 let vortexParticles = [];
@@ -97,4 +97,4 @@ function draw() {
 }
 
 // All core functions remain from previous chunks.
-// Visual polish focused on HTML/CSS in this chunk.
+// Focused on visual polish in HTML/CSS for this chunk.
