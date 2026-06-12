@@ -20,7 +20,7 @@
           </div>
           <span class="font-display text-2xl tracking-tighter">MiniSimmy3</span>
         </div>
-        <span class="text-xs px-2.5 py-0.5 bg-sky-500/20 text-sky-400 rounded-full font-mono">v0.13</span>
+        <span class="text-xs px-2.5 py-0.5 bg-sky-500/20 text-sky-400 rounded-full font-mono">v0.14</span>
       </div>
 
       <div class="flex items-center gap-x-5 text-sm">
@@ -39,13 +39,19 @@
       </div>
 
       <div class="flex items-center gap-x-2">
+        <button onclick="showInventory()"
+                class="flex items-center gap-x-1.5 px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 rounded-2xl text-xs font-medium transition-colors">
+          <i class="fa-solid fa-box"></i>
+          <span>Inventory</span>
+          <span id="egg-count-badge" class="ml-1 px-1.5 py-0.5 bg-white/20 rounded-full text-[10px] font-mono">0/10</span>
+        </button>
+
         <button onclick="showGeneVault()"
                 class="flex items-center gap-x-1.5 px-3.5 py-1.5 bg-violet-600 hover:bg-violet-700 rounded-2xl text-xs font-medium transition-colors">
           <i class="fa-solid fa-dna"></i>
           <span>Gene Vault</span>
         </button>
 
-        <!-- Prestige Button -->
         <button onclick="prestige()"
                 class="flex items-center gap-x-1.5 px-4 py-1.5 bg-amber-500 hover:bg-amber-600 rounded-2xl text-xs font-semibold text-[#05070f] transition-colors">
           <i class="fa-solid fa-sync-alt"></i>
@@ -68,7 +74,6 @@
 
     <!-- Inspector -->
     <div id="inspector" class="hidden mt-3 mx-auto w-[820px] bg-[#121218] border border-white/10 rounded-2xl p-4">
-      <!-- Inspector content -->
       <div class="flex justify-between items-start mb-3">
         <div>
           <div id="inspect-name" class="font-semibold text-emerald-400 text-xl"></div>
@@ -105,6 +110,30 @@
 
         <div class="grid grid-cols-2 md:grid-cols-5 gap-3" id="gene-vault-slots">
           <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Inventory Modal -->
+    <div id="inventory-modal" onclick="hideInventory()" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[100]">
+      <div onclick="event.stopImmediatePropagation()" class="modal bg-[#121218] border border-white/10 rounded-3xl max-w-md w-full mx-4 p-6">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h3 class="text-xl font-semibold flex items-center gap-x-2">
+              <i class="fa-solid fa-box text-amber-400"></i>
+              <span>Inventory</span>
+            </h3>
+            <p class="text-sm text-white/50">Stored eggs (max 10)</p>
+          </div>
+          <button onclick="hideInventory()" class="text-3xl leading-none text-white/60 hover:text-white">&times;</button>
+        </div>
+
+        <div id="inventory-list" class="space-y-2 max-h-[420px] overflow-auto pr-1">
+          <!-- Populated by JavaScript -->
+        </div>
+
+        <div class="mt-4 text-center text-xs text-white/40">
+          Extract creatures from the inspector to store eggs here.
         </div>
       </div>
     </div>

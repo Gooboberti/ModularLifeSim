@@ -1,9 +1,10 @@
-// MiniSimmy3 - Core + Prestige System (Chunk 13)
+// MiniSimmy3 - Core + Inventory System (Chunk 14)
 
 let creatures = [];
 let vortexParticles = [];
 let pheromones = [];
 let geneVaultSlots = Array(10).fill(null);
+let eggs = []; // Inventory eggs
 let centerX, centerY;
 let timeScale = 1;
 let paused = false;
@@ -12,6 +13,8 @@ let isDay = true;
 let selectedCreature = null;
 let highRollerPoints = 0;
 let lastScoreUpdate = 0;
+
+const MAX_EGGS = 10;
 
 let greenZone = { x: 200, y: 290, baseR: 105, food: 420 };
 let blueZone  = { x: 620, y: 290, baseR: 105, food: 420 };
@@ -89,40 +92,6 @@ function draw() {
   simTime += timeScale;
 }
 
-function prestige() {
-  if (!confirm('Prestige now? This will reset the current simulation but keep your Gene Vault.')) {
-    return;
-  }
-
-  // Reset simulation
-  creatures = [];
-  pheromones = [];
-  vortexParticles = [];
-  simTime = 0;
-  highRollerPoints = 0;
-  selectedCreature = null;
-  document.getElementById('inspector').classList.add('hidden');
-
-  // Respawn vortex particles
-  for (let i = 0; i < 170; i++) {
-    vortexParticles.push(new VortexParticle());
-  }
-
-  // Respawn starting creatures
-  for (let i = 0; i < 16; i++) {
-    creatures.push(new Creature(random(width), random(height)));
-  }
-
-  // Give a small starting bonus for prestige
-  highRollerPoints = 25000;
-
-  updateUI();
-  const scoreEl = document.getElementById('stat-score');
-  if (scoreEl) scoreEl.innerText = highRollerPoints.toLocaleString();
-
-  addFloatingText(width/2, height/2, "Prestiged! Gene Vault preserved.", '#fbbf24');
-}
-
 function updateHighRollerPoints() {
   const now = Date.now();
   if (now - lastScoreUpdate < 400) return;
@@ -146,8 +115,102 @@ function updateHighRollerPoints() {
 function updateUI() {
   const popEl = document.getElementById('stat-pop');
   const timeEl = document.getElementById('stat-time');
+  const badge = document.getElementById('egg-count-badge');
   if (popEl) popEl.innerText = creatures.length;
   if (timeEl) timeEl.innerText = `${floor(simTime/60)}:${nf(floor(simTime%60),2)}`;
+  if (badge) badge.innerText = `${eggs.length}/${MAX_EGGS}`;
 }
 
-// Gene Vault and other functions remain from previous chunks...
+// ==================== INVENTORY SYSTEM (Chunk 14) ====================
+function showInventory() {
+  const modal = document.getElementById('inventory-modal');
+  const list = document.getElementById('inventory-list');
+  list.innerHTML = '';
+
+  if (eggs.length === 0) {
+    list.innerHTML = `<div class="text-center py-8 text-white/50 text-sm">No eggs in inventory.</div>`;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    return;
+  }
+
+  eggs.forEach((egg, index) => {
+    const div = document.createElement('div');
+    div.className = 'bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl p-3 cursor-pointer transition-colors';
+    div.innerHTML = `
+      <div class="flex justify-between items-center">
+        <div>
+          <div class="font-medium text-emerald-400">${egg.name}</div>
+          <div class="text-xs text-white/50">Gen ${egg.generation} • ${egg.modules.length} modules</div>
+        </div>
+        <div class="text-right text-xs">
+          <div class="text-amber-400">${egg.killCount || 0} kills</div>
+        </div>
+      </div>
+    `;
+    div.onclick = () => moveEggToVault(index);
+    list.appendChild(div);
+  });
+
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+}
+
+function hideInventory() {
+  const modal = document.getElementById('inventory-modal');
+  modal.classList.remove('flex');
+  modal.classList.add('hidden');
+}
+
+function moveEggToVault(eggIndex) {
+  if (geneVaultSlots.filter(s => s !== null).length >= 2) {
+    alert("Gene Vault is full (only 2 slots unlocked).");
+    return;
+  }
+
+  const egg = eggs[eggIndex];
+  // Find first empty unlocked slot
+  for (let i = 0; i < 2; i++) {
+    if (!geneVaultSlots[i]) {
+      geneVaultSlots[i] = egg;
+      eggs.splice(eggIndex, 1);
+      hideInventory();
+      showGeneVault();
+      return;
+    }
+  }
+}
+
+function extractCreatureToEgg() {
+  if (!selectedCreature) {
+    alert("Select a creature first.");
+    return;
+  }
+  if (eggs.length >= MAX_EGGS) {
+    alert("Inventory full (max 10 eggs).");
+    return;
+  }
+
+  const eggData = {
+    name: selectedCreature.name,
+    generation: selectedCreature.generation,
+    modules: JSON.parse(JSON.stringify(selectedCreature.modules)),
+    killCount: selectedCreature.killCount || 0,
+    childrenCount: selectedCreature.childrenCount || 0
+  };
+
+  eggs.push(eggData);
+  const index = creatures.indexOf(selectedCreature);
+  if (index > -1) creatures.splice(index, 1);
+
+  selectedCreature = null;
+  document.getElementById('inspector').classList.add('hidden');
+
+  updateUI();
+  addFloatingText(width/2, 80, "Egg extracted to Inventory!", '#fbbf24');
+}
+
+// Note: In a future chunk we will add an "Extract to Egg" button in the inspector.
+// For now you can call extractCreatureToEgg() from console if needed.
+
+// Gene Vault and Prestige functions remain from previous chunks...
