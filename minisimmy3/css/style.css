@@ -1,0 +1,13 @@
+/* MiniSimmy3 Custom Styles */
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.modal {
+  animation: fadeInScale 0.2s ease forwards;
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
