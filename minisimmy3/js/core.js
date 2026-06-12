@@ -1,4 +1,4 @@
-// MiniSimmy3 - Core + Furnace System (Chunk 18)
+// MiniSimmy3 - Core + Improved Furnace (Chunk 19)
 
 let creatures = [];
 let vortexParticles = [];
@@ -110,7 +110,6 @@ function updateHighRollerPoints() {
   for (let c of creatures) if (c.isPredator) predators++;
   score += predators * 28;
 
-  // Furnace multiplier
   if (burningCrystals > 0 && Date.now() < furnaceEndTime) {
     score *= 100;
   }
@@ -126,12 +125,21 @@ function updateFurnace() {
   const multText = document.getElementById('furnace-mult-text');
 
   if (burningCrystals > 0 && Date.now() < furnaceEndTime) {
-    if (multEl) multEl.classList.remove('hidden');
-    if (multEl) multEl.classList.add('flex');
-    if (multText) multText.innerText = `x100`;
+    if (multEl) {
+      multEl.classList.remove('hidden');
+      multEl.classList.add('flex');
+    }
+    if (multText) {
+      const remaining = Math.max(0, Math.floor((furnaceEndTime - Date.now()) / 1000));
+      const min = Math.floor(remaining / 60);
+      const sec = remaining % 60;
+      multText.innerText = `x100 (${min}:${sec.toString().padStart(2, '0')})`;
+    }
   } else {
-    if (multEl) multEl.classList.remove('flex');
-    if (multEl) multEl.classList.add('hidden');
+    if (multEl) {
+      multEl.classList.remove('flex');
+      multEl.classList.add('hidden');
+    }
     burningCrystals = 0;
     furnaceEndTime = 0;
   }
@@ -173,11 +181,11 @@ function burnCrystals(amount) {
 
   aetheriumCrystals -= amount;
   burningCrystals = amount;
-  furnaceEndTime = Date.now() + (5 * 60 * 1000); // 5 minutes
+  furnaceEndTime = Date.now() + (5 * 60 * 1000);
 
   hideFurnaceModal();
   updateUI();
-  addFloatingText(width/2, 100, `Furnace burning! x100 for 5 min`, '#f59e0b');
+  addFloatingText(width/2, 100, `Furnace active! x100 for 5 min`, '#f59e0b');
 }
 
-// Gene Vault, Inventory, Prestige, and other functions remain from previous chunks...
+// Gene Vault, Inventory, Prestige functions remain from previous chunks...
