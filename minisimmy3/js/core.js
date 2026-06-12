@@ -1,9 +1,7 @@
-// Note (Chunk 63):
-// autoSaveEggs() should be called after any action that modifies eggs or geneVaultSlots.
-// Current call sites:
-// - extractCreatureToEgg()
-// - moveEggToVault()
-// - deleteEgg()
-// - prestige()
-// - burnCrystals() / import actions
-// This ensures progress is never lost.
+// Future Expansion Note (Chunk 64):
+// The saving system is designed to be easily extended.
+// Possible future additions:
+// - Save full simulation state (creature positions, environment phase, etc.)
+// - Export full progress as JSON for the Ranch game
+// - Cloud sync or multiple save slots
+// Current foundation is solid and well-documented.
