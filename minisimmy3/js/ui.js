@@ -1,12 +1,11 @@
-// MiniSimmy3 - All UI & Modal Logic
-// Inventory, Gene Vault, Furnace, Inspector, modals, etc.
+// MiniSimmy3 - UI & Modal System (Placeholder)
 
 function showInventory() {
-  // modal logic
+  console.log("Opening Inventory (modular)");
+  // Will be expanded
 }
 
 function showGeneVault() {
-  // gene vault modal
+  console.log("Opening Gene Vault (modular)");
+  // Will be expanded
 }
-
-// ... other UI functions

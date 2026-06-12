@@ -10,16 +10,30 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body class="bg-[#0a0a0f] text-[#e0e0ea]">
-  <div id="app">
-    <!-- Canvas and UI will be injected by JS -->
+  <div class="max-w-screen-2xl mx-auto p-4">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center gap-x-3">
+        <div class="w-9 h-9 rounded-2xl bg-gradient-to-br from-sky-400 to-indigo-500 flex items-center justify-center">
+          <i class="fa-solid fa-atom text-[#0a0a0f]"></i>
+        </div>
+        <span class="font-display text-3xl tracking-tighter">MiniSimmy3</span>
+        <span class="text-xs px-2 py-0.5 bg-sky-500/20 text-sky-400 rounded-full">v0.1 - Modular</span>
+      </div>
+      <div>
+        <a href="../index.html" class="text-sm hover:text-white">Back to Main Site</a>
+      </div>
+    </div>
+
+    <!-- Canvas Container -->
+    <div id="canvas-container" class="mx-auto w-[820px] rounded-3xl border border-white/10 overflow-hidden shadow-2xl"></div>
+
+    <!-- Inspector / Sidebar will be added here later -->
   </div>
 
-  <!-- Load modular scripts in order -->
+  <!-- Modular Scripts -->
   <script src="js/utils.js"></script>
   <script src="js/creatures.js"></script>
-  <script src="js/modules.js"></script>
   <script src="js/economy.js"></script>
-  <script src="js/audio.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/core.js"></script>
 </body>

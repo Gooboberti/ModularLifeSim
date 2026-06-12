@@ -1,27 +1,30 @@
 # MiniSimmy3
 
-Next-generation modular version of MiniSimmy2.
+**Next-generation modular evolution simulation**
 
-## Planned Structure
+This is the refactored, multi-file version of MiniSimmy2.
 
+## Current Status
+- Modular folder structure in place
+- Creature class extracted
+- Basic game loop started
+- UI system being migrated
+
+## Folder Structure
 ```
 minisimmy3/
-├── index.html          # Clean entry point
+├── index.html
 ├── js/
-│   ├── core.js           # p5.js setup, draw loop, global state
-│   ├── creatures.js      # Creature class + behavior
-│   ├── modules.js        # Module system & merging
-│   ├── ui.js             # All modals (Inventory, Gene Vault, Furnace, etc.)
-│   ├── economy.js        # Prestige, Aetherium, Furnace logic
-│   ├── audio.js          # Sound system
-│   └── utils.js          # Helpers & formatting
+│   ├── core.js
+│   ├── creatures.js
+│   ├── ui.js
+│   ├── economy.js
+│   ├── utils.js
 └── css/
     └── style.css
 ```
 
 ## Goals
 - Clean separation of concerns
-- Easier maintenance and iteration
-- Better support for future features (Gene Vault 2.0, Ranch/Brain Lab, etc.)
-
-This is the start of the refactor from the monolithic single-file version.
+- Easier long-term maintenance
+- Better support for Gene Vault 2.0, Ranch system, and advanced features
