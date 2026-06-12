@@ -1,4 +1,4 @@
-// MiniSimmy3 - Creature Class with Improved Visuals (Chunk 26)
+// MiniSimmy3 - Creature Class with Stronger Sensor Effects (Chunk 27)
 
 class Creature {
   constructor(x, y, parentModules = null, generation = 1, parentTraits = null) {
@@ -19,7 +19,8 @@ class Creature {
       this.traits = {
         pheromoneSensitivity: 1.0 + random(-0.11, 0.11),
         explorationBias: 1.0 + random(-0.11, 0.11),
-        vortexResistance: 1.0 + random(-0.11, 0.11)
+        vortexResistance: 1.0 + random(-0.11, 0.11),
+        sensorAwareness: 1.0 + random(-0.11, 0.11)
       };
     }
 
@@ -60,6 +61,7 @@ class Creature {
     const resistantBonus = this.getTieredModuleCount('resistant') * 0.035;
     this.energy -= (drain - resistantBonus) * timeScale;
 
+    // Zone attraction (Harvester)
     let tgt = isDay ? greenZone : blueZone;
     let d = dist(this.x,this.y,tgt.x,tgt.y);
     if(d>10){
@@ -68,6 +70,7 @@ class Creature {
       this.vy += (tgt.y-this.y)/d * pull;
     }
 
+    // Vortex (Mover/Explorer escape)
     let cdist = dist(this.x,this.y,centerX,centerY);
     if(cdist>15 && cdist<390){
       let tx=-(this.y-centerY), ty=this.x-centerX;
@@ -81,6 +84,7 @@ class Creature {
       this.vy += (centerY-this.y)*pull/(cdist+6);
     }
 
+    // Pheromone attraction (Communicator)
     let pSense = this.traits.pheromoneSensitivity + this.getTieredModuleCount('communicator') * 0.08;
     for(let p of pheromones){
       let pd = dist(this.x,this.y,p.x,p.y);
@@ -89,6 +93,31 @@ class Creature {
         this.vx += (p.x - this.x)/pd * str;
         this.vy += (p.y - this.y)/pd * str;
       }
+    }
+
+    // Sensor module effect: Better avoidance of predators + slight awareness bonus
+    if (this.getTieredModuleCount('sensor') > 0) {
+      let sensorBonus = this.getTieredModuleCount('sensor') * 0.6;
+      for (let other of creatures) {
+        if (other.isPredator && other !== this) {
+          let od = dist(this.x, this.y, other.x, other.y);
+          if (od < 85) {
+            let avoid = (85 - od) / 85 * 0.9 * sensorBonus;
+            let dx = this.x - other.x;
+            let dy = this.y - other.y;
+            let len = sqrt(dx*dx + dy*dy) || 1;
+            this.vx += (dx / len) * avoid;
+            this.vy += (dy / len) * avoid;
+          }
+        }
+      }
+    }
+
+    // Explorer bonus: Slightly better exploration / less clustering
+    if (this.getTieredModuleCount('explorer') > 0) {
+      let explore = this.getTieredModuleCount('explorer') * 0.04;
+      this.vx += random(-explore, explore);
+      this.vy += random(-explore, explore);
     }
 
     if(random() < 0.014 * timeScale && this.getTieredModuleCount('communicator') > 0){
@@ -128,7 +157,6 @@ class Creature {
     if(this.specialization==='explorer') coreColor='#fbbf24';
     if(this.specialization==='communicator') coreColor='#c084fc';
 
-    // Improved glow for predators (matching original feel)
     if (this.isPredator) {
       fill(239, 68, 68, 40);
       noStroke();
