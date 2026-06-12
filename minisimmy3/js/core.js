@@ -1,10 +1,10 @@
-// MiniSimmy3 - Core + Inventory System (Chunk 14)
+// MiniSimmy3 - Core + Extract to Egg in Inspector (Chunk 15)
 
 let creatures = [];
 let vortexParticles = [];
 let pheromones = [];
 let geneVaultSlots = Array(10).fill(null);
-let eggs = []; // Inventory eggs
+let eggs = [];
 let centerX, centerY;
 let timeScale = 1;
 let paused = false;
@@ -121,73 +121,55 @@ function updateUI() {
   if (badge) badge.innerText = `${eggs.length}/${MAX_EGGS}`;
 }
 
-// ==================== INVENTORY SYSTEM (Chunk 14) ====================
-function showInventory() {
-  const modal = document.getElementById('inventory-modal');
-  const list = document.getElementById('inventory-list');
-  list.innerHTML = '';
+function updateInspector() {
+  if (!selectedCreature) return;
+  const c = selectedCreature;
 
-  if (eggs.length === 0) {
-    list.innerHTML = `<div class="text-center py-8 text-white/50 text-sm">No eggs in inventory.</div>`;
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    return;
+  document.getElementById('inspect-name').innerText = c.name;
+  document.getElementById('inspect-role').innerText = c.role || c.specialization;
+  document.getElementById('inspect-gen').innerText = c.generation;
+  document.getElementById('inspect-energy').innerText = Math.floor(c.energy);
+  document.getElementById('inspect-module-count').innerText = c.modules.length;
+
+  const modContainer = document.getElementById('inspect-modules');
+  modContainer.innerHTML = '';
+
+  if (c.modules.length === 0) {
+    modContainer.innerHTML = `<div class="text-white/50">No modules</div>`;
+  } else {
+    c.modules.forEach(m => {
+      const tier = m.tier || 1;
+      const div = document.createElement('div');
+      div.className = 'flex justify-between text-xs py-px';
+      div.innerHTML = `
+        <span style="color: ${m.color}">${m.type}</span>
+        <span class="text-amber-400">T${tier}</span>
+      `;
+      modContainer.appendChild(div);
+    });
   }
 
-  eggs.forEach((egg, index) => {
-    const div = document.createElement('div');
-    div.className = 'bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl p-3 cursor-pointer transition-colors';
-    div.innerHTML = `
-      <div class="flex justify-between items-center">
-        <div>
-          <div class="font-medium text-emerald-400">${egg.name}</div>
-          <div class="text-xs text-white/50">Gen ${egg.generation} • ${egg.modules.length} modules</div>
-        </div>
-        <div class="text-right text-xs">
-          <div class="text-amber-400">${egg.killCount || 0} kills</div>
-        </div>
-      </div>
-    `;
-    div.onclick = () => moveEggToVault(index);
-    list.appendChild(div);
-  });
-
-  modal.classList.remove('hidden');
-  modal.classList.add('flex');
-}
-
-function hideInventory() {
-  const modal = document.getElementById('inventory-modal');
-  modal.classList.remove('flex');
-  modal.classList.add('hidden');
-}
-
-function moveEggToVault(eggIndex) {
-  if (geneVaultSlots.filter(s => s !== null).length >= 2) {
-    alert("Gene Vault is full (only 2 slots unlocked).");
-    return;
-  }
-
-  const egg = eggs[eggIndex];
-  // Find first empty unlocked slot
-  for (let i = 0; i < 2; i++) {
-    if (!geneVaultSlots[i]) {
-      geneVaultSlots[i] = egg;
-      eggs.splice(eggIndex, 1);
-      hideInventory();
-      showGeneVault();
-      return;
-    }
+  // Add Extract to Egg button if not already present
+  let extractBtn = document.getElementById('extract-egg-btn');
+  if (!extractBtn) {
+    extractBtn = document.createElement('button');
+    extractBtn.id = 'extract-egg-btn';
+    extractBtn.className = 'mt-3 w-full flex items-center justify-center gap-x-2 px-3 py-2 bg-amber-500/90 hover:bg-amber-500 rounded-2xl text-xs font-medium text-[#05070f] transition-colors';
+    extractBtn.innerHTML = `<i class="fa-solid fa-egg"></i> <span>Extract to Egg (Inventory)</span>`;
+    extractBtn.onclick = () => {
+      extractCreatureToEgg();
+    };
+    // Insert after modules list
+    const modulesSection = document.getElementById('inspect-modules').parentNode;
+    modulesSection.parentNode.appendChild(extractBtn);
   }
 }
 
+// ==================== EXTRACT TO EGG ====================
 function extractCreatureToEgg() {
-  if (!selectedCreature) {
-    alert("Select a creature first.");
-    return;
-  }
+  if (!selectedCreature) return;
   if (eggs.length >= MAX_EGGS) {
-    alert("Inventory full (max 10 eggs).");
+    alert("Inventory is full (max 10 eggs).");
     return;
   }
 
@@ -200,17 +182,17 @@ function extractCreatureToEgg() {
   };
 
   eggs.push(eggData);
+
+  // Remove from simulation
   const index = creatures.indexOf(selectedCreature);
   if (index > -1) creatures.splice(index, 1);
 
+  const removedCreature = selectedCreature;
   selectedCreature = null;
   document.getElementById('inspector').classList.add('hidden');
 
   updateUI();
-  addFloatingText(width/2, 80, "Egg extracted to Inventory!", '#fbbf24');
+  addFloatingText(removedCreature.x, removedCreature.y - 20, "Egg extracted!", '#fbbf24');
 }
 
-// Note: In a future chunk we will add an "Extract to Egg" button in the inspector.
-// For now you can call extractCreatureToEgg() from console if needed.
-
-// Gene Vault and Prestige functions remain from previous chunks...
+// Gene Vault, Inventory, Prestige functions remain from previous chunks...
