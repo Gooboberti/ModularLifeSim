@@ -1,4 +1,4 @@
-// MiniSimmy3 - Creature Class with More Module Effects (Chunk 21)
+// MiniSimmy3 - Creature Class with Improved Visuals (Chunk 26)
 
 class Creature {
   constructor(x, y, parentModules = null, generation = 1, parentTraits = null) {
@@ -60,7 +60,6 @@ class Creature {
     const resistantBonus = this.getTieredModuleCount('resistant') * 0.035;
     this.energy -= (drain - resistantBonus) * timeScale;
 
-    // Zone attraction (Harvester)
     let tgt = isDay ? greenZone : blueZone;
     let d = dist(this.x,this.y,tgt.x,tgt.y);
     if(d>10){
@@ -69,7 +68,6 @@ class Creature {
       this.vy += (tgt.y-this.y)/d * pull;
     }
 
-    // Vortex (Mover/Explorer escape bonus)
     let cdist = dist(this.x,this.y,centerX,centerY);
     if(cdist>15 && cdist<390){
       let tx=-(this.y-centerY), ty=this.x-centerX;
@@ -83,7 +81,6 @@ class Creature {
       this.vy += (centerY-this.y)*pull/(cdist+6);
     }
 
-    // Pheromone (Communicator)
     let pSense = this.traits.pheromoneSensitivity + this.getTieredModuleCount('communicator') * 0.08;
     for(let p of pheromones){
       let pd = dist(this.x,this.y,p.x,p.y);
@@ -98,7 +95,6 @@ class Creature {
       pheromones.push({x:this.x, y:this.y, life: 200 + random(80), isGreen: isDay});
     }
 
-    // Predator behavior
     if (this.isPredator) {
       this.energy -= 0.12 * timeScale;
       for (let other of creatures) {
@@ -115,7 +111,6 @@ class Creature {
       }
     }
 
-    // Apply velocity
     this.x += this.vx; this.y += this.vy;
     this.vx *= 0.84; this.vy *= 0.84;
     this.x=constrain(this.x,8,width-8); this.y=constrain(this.y,8,height-8);
@@ -133,6 +128,13 @@ class Creature {
     if(this.specialization==='explorer') coreColor='#fbbf24';
     if(this.specialization==='communicator') coreColor='#c084fc';
 
+    // Improved glow for predators (matching original feel)
+    if (this.isPredator) {
+      fill(239, 68, 68, 40);
+      noStroke();
+      circle(0, 0, s + 7);
+    }
+
     fill(coreColor); stroke(this.isPredator?'#fecaca':'#fef08c'); strokeWeight(1.5);
     circle(0,0,s);
 
@@ -147,10 +149,10 @@ class Creature {
     }
 
     if (this.isPredator) {
-      stroke(239, 68, 68, 200);
-      strokeWeight(2);
+      stroke(239, 68, 68, 220);
+      strokeWeight(2.5);
       noFill();
-      circle(0, 0, s + 4);
+      circle(0, 0, s + 5);
     }
     pop();
   }
