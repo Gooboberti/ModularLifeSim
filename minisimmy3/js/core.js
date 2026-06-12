@@ -1,4 +1,4 @@
-// MiniSimmy3 - Core + Visible Aetherium (Chunk 17)
+// MiniSimmy3 - Core + Furnace System (Chunk 18)
 
 let creatures = [];
 let vortexParticles = [];
@@ -13,6 +13,8 @@ let isDay = true;
 let selectedCreature = null;
 let highRollerPoints = 0;
 let aetheriumCrystals = 0;
+let burningCrystals = 0;
+let furnaceEndTime = 0;
 let lastScoreUpdate = 0;
 
 const MAX_EGGS = 10;
@@ -90,6 +92,7 @@ function draw() {
   updateUI();
   if (selectedCreature) updateInspector();
   updateHighRollerPoints();
+  updateFurnace();
   simTime += timeScale;
 }
 
@@ -107,10 +110,31 @@ function updateHighRollerPoints() {
   for (let c of creatures) if (c.isPredator) predators++;
   score += predators * 28;
 
+  // Furnace multiplier
+  if (burningCrystals > 0 && Date.now() < furnaceEndTime) {
+    score *= 100;
+  }
+
   highRollerPoints = Math.floor(score);
 
   const scoreEl = document.getElementById('stat-score');
   if (scoreEl) scoreEl.innerText = highRollerPoints.toLocaleString();
+}
+
+function updateFurnace() {
+  const multEl = document.getElementById('furnace-multiplier');
+  const multText = document.getElementById('furnace-mult-text');
+
+  if (burningCrystals > 0 && Date.now() < furnaceEndTime) {
+    if (multEl) multEl.classList.remove('hidden');
+    if (multEl) multEl.classList.add('flex');
+    if (multText) multText.innerText = `x100`;
+  } else {
+    if (multEl) multEl.classList.remove('flex');
+    if (multEl) multEl.classList.add('hidden');
+    burningCrystals = 0;
+    furnaceEndTime = 0;
+  }
 }
 
 function updateUI() {
@@ -127,7 +151,33 @@ function updateUI() {
   if (badge) badge.innerText = `${eggs.length}/${MAX_EGGS}`;
 }
 
-// Prestige now also updates crystals display
-// (previous prestige function already updates aetheriumCrystals)
+function showFurnaceModal() {
+  const modal = document.getElementById('furnace-modal');
+  const crystalsEl = document.getElementById('furnace-crystals');
+  if (crystalsEl) crystalsEl.innerText = aetheriumCrystals;
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+}
 
-// Gene Vault, Inventory, and other functions remain from previous chunks...
+function hideFurnaceModal() {
+  const modal = document.getElementById('furnace-modal');
+  modal.classList.remove('flex');
+  modal.classList.add('hidden');
+}
+
+function burnCrystals(amount) {
+  if (aetheriumCrystals < amount) {
+    alert("Not enough Aetherium Crystals.");
+    return;
+  }
+
+  aetheriumCrystals -= amount;
+  burningCrystals = amount;
+  furnaceEndTime = Date.now() + (5 * 60 * 1000); // 5 minutes
+
+  hideFurnaceModal();
+  updateUI();
+  addFloatingText(width/2, 100, `Furnace burning! x100 for 5 min`, '#f59e0b');
+}
+
+// Gene Vault, Inventory, Prestige, and other functions remain from previous chunks...

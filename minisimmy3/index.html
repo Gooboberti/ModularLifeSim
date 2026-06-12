@@ -20,7 +20,7 @@
           </div>
           <span class="font-display text-2xl tracking-tighter">MiniSimmy3</span>
         </div>
-        <span class="text-xs px-2.5 py-0.5 bg-sky-500/20 text-sky-400 rounded-full font-mono">v0.17</span>
+        <span class="text-xs px-2.5 py-0.5 bg-sky-500/20 text-sky-400 rounded-full font-mono">v0.18</span>
       </div>
 
       <div class="flex items-center gap-x-4 text-sm">
@@ -32,15 +32,18 @@
           <span class="text-white/50">Time</span>
           <span id="stat-time" class="font-mono font-semibold">00:00</span>
         </div>
-        <!-- High Roller Points -->
         <div class="flex items-center gap-x-1.5 px-3 py-1 bg-white/5 border border-white/10 rounded-2xl">
           <span class="text-white/50 text-xs">HRP</span>
           <span id="stat-score" class="font-mono font-semibold text-amber-400">0</span>
         </div>
-        <!-- Aetherium Crystals -->
         <div class="flex items-center gap-x-1.5 px-3 py-1 bg-pink-500/10 border border-pink-500/30 rounded-2xl">
           <i class="fa-solid fa-gem text-pink-400 text-xs"></i>
           <span id="stat-crystals" class="font-mono font-semibold text-pink-400">0</span>
+        </div>
+        <!-- Furnace Multiplier -->
+        <div id="furnace-multiplier" class="hidden items-center gap-x-1 px-2.5 py-1 bg-orange-500/20 border border-orange-500/40 rounded-2xl text-xs font-mono text-orange-400">
+          <i class="fa-solid fa-fire"></i>
+          <span id="furnace-mult-text">x1</span>
         </div>
       </div>
 
@@ -56,6 +59,12 @@
                 class="flex items-center gap-x-1.5 px-3.5 py-1.5 bg-violet-600 hover:bg-violet-700 rounded-2xl text-xs font-medium transition-colors">
           <i class="fa-solid fa-dna"></i>
           <span>Gene Vault</span>
+        </button>
+
+        <button onclick="showFurnaceModal()"
+                class="flex items-center gap-x-1.5 px-3.5 py-1.5 bg-orange-600 hover:bg-orange-700 rounded-2xl text-xs font-medium transition-colors">
+          <i class="fa-solid fa-fire"></i>
+          <span>Furnace</span>
         </button>
 
         <button onclick="prestige()"
@@ -80,6 +89,7 @@
 
     <!-- Inspector -->
     <div id="inspector" class="hidden mt-3 mx-auto w-[820px] bg-[#121218] border border-white/10 rounded-2xl p-4">
+      <!-- Inspector content -->
       <div class="flex justify-between items-start mb-3">
         <div>
           <div id="inspect-name" class="font-semibold text-emerald-400 text-xl"></div>
@@ -136,6 +146,44 @@
 
         <div id="inventory-list" class="space-y-2 max-h-[420px] overflow-auto pr-1">
           <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Furnace Modal -->
+    <div id="furnace-modal" onclick="hideFurnaceModal()" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[100]">
+      <div onclick="event.stopImmediatePropagation()" class="modal bg-[#121218] border border-white/10 rounded-3xl max-w-sm w-full mx-4 p-6">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h3 class="text-xl font-semibold flex items-center gap-x-2">
+              <i class="fa-solid fa-fire text-orange-400"></i>
+              <span>Furnace</span>
+            </h3>
+            <p class="text-sm text-white/50">Burn Aetherium for score multiplier</p>
+          </div>
+          <button onclick="hideFurnaceModal()" class="text-3xl leading-none text-white/60 hover:text-white">&times;</button>
+        </div>
+
+        <div class="space-y-3">
+          <div class="bg-white/5 rounded-2xl p-4">
+            <div class="flex justify-between text-sm">
+              <span class="text-white/50">Your Crystals</span>
+              <span id="furnace-crystals" class="font-mono font-semibold text-pink-400">0</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="burnCrystals(1)" class="px-4 py-2.5 bg-orange-500/90 hover:bg-orange-500 rounded-2xl text-sm font-medium">Burn 1 Crystal</button>
+            <button onclick="burnCrystals(5)" class="px-4 py-2.5 bg-orange-500/90 hover:bg-orange-500 rounded-2xl text-sm font-medium">Burn 5 Crystals</button>
+          </div>
+
+          <div class="text-xs text-center text-white/40 pt-2">
+            While burning: <span class="text-orange-400 font-semibold">x100</span> score multiplier for 5 minutes
+          </div>
+        </div>
+
+        <div class="mt-4 flex justify-end">
+          <button onclick="hideFurnaceModal()" class="px-4 py-2 text-sm bg-white/10 hover:bg-white/20 rounded-2xl">Close</button>
         </div>
       </div>
     </div>
