@@ -15,21 +15,32 @@
     <div class="flex items-center justify-between mb-3 px-2">
       <div class="flex items-center gap-x-3">
         <div class="flex items-center gap-x-2">
-          <div class="w-8 h-8 rounded-2xl bg-gradient-to-br from-sky-400 to-indigo-500 flex items-center justify-center">
-            <i class="fa-solid fa-atom text-[#0a0a0f]"></i>
+          <div class="w-8 h-8 rounded-2xl bg-gradient-to-br from-cyan-400 to-sky-500 flex items-center justify-center">
+            <i class="fa-solid fa-atom text-[#05070f]"></i>
           </div>
           <span class="font-display text-2xl tracking-tighter">MiniSimmy3</span>
         </div>
-        <span class="text-xs px-2.5 py-0.5 bg-sky-500/20 text-sky-400 rounded-full font-mono">v0.8</span>
+        <span class="text-xs px-2.5 py-0.5 bg-sky-500/20 text-sky-400 rounded-full font-mono">v0.12</span>
       </div>
 
-      <div class="flex items-center gap-x-4 text-sm">
-        <div><span class="text-white/50">Pop</span> <span id="stat-pop" class="font-mono font-semibold text-emerald-400">18</span></div>
-        <div><span class="text-white/50">Time</span> <span id="stat-time" class="font-mono font-semibold">00:00</span></div>
+      <!-- Stats Row -->
+      <div class="flex items-center gap-x-5 text-sm">
+        <div class="flex items-center gap-x-1.5">
+          <span class="text-white/50">Pop</span>
+          <span id="stat-pop" class="font-mono font-semibold text-emerald-400">18</span>
+        </div>
+        <div class="flex items-center gap-x-1.5">
+          <span class="text-white/50">Time</span>
+          <span id="stat-time" class="font-mono font-semibold">00:00</span>
+        </div>
+        <!-- High Roller Points -->
+        <div class="flex items-center gap-x-1.5 px-3 py-1 bg-white/5 border border-white/10 rounded-2xl">
+          <span class="text-white/50 text-xs">HRP</span>
+          <span id="stat-score" class="font-mono font-semibold text-amber-400">0</span>
+        </div>
       </div>
 
       <div class="flex items-center gap-x-2">
-        <!-- Gene Vault Button -->
         <button onclick="showGeneVault()"
                 class="flex items-center gap-x-1.5 px-3.5 py-1.5 bg-violet-600 hover:bg-violet-700 rounded-2xl text-xs font-medium transition-colors">
           <i class="fa-solid fa-dna"></i>
@@ -38,7 +49,7 @@
 
         <div class="flex items-center gap-x-1 bg-[#121218] border border-white/10 rounded-2xl p-1 text-xs">
           <button onclick="setTimeScale(0.5)" class="px-3 py-1 rounded-xl hover:bg-white/10">0.5×</button>
-          <button onclick="setTimeScale(1)" class="px-3 py-1 rounded-xl bg-emerald-500 text-[#0a0a0f] font-semibold">1×</button>
+          <button onclick="setTimeScale(1)" class="px-3 py-1 rounded-xl bg-emerald-500 text-[#05070f] font-semibold">1×</button>
           <button onclick="setTimeScale(2)" class="px-3 py-1 rounded-xl hover:bg-white/10">2×</button>
           <button onclick="togglePause()" id="pause-btn" class="px-3 py-1 rounded-xl hover:bg-white/10 flex items-center gap-x-1.5">
             <i class="fa-solid fa-pause text-xs"></i>
@@ -52,7 +63,6 @@
 
     <!-- Inspector -->
     <div id="inspector" class="hidden mt-3 mx-auto w-[820px] bg-[#121218] border border-white/10 rounded-2xl p-4">
-      <!-- Inspector content from previous chunk -->
       <div class="flex justify-between items-start mb-3">
         <div>
           <div id="inspect-name" class="font-semibold text-emerald-400 text-xl"></div>
@@ -82,17 +92,13 @@
               <i class="fa-solid fa-dna text-violet-400"></i>
               <span>Gene Vault</span>
             </h3>
-            <p class="text-sm text-white/50">Preserve and amplify powerful bloodlines</p>
+            <p class="text-sm text-white/50">Preserve powerful bloodlines across prestige</p>
           </div>
           <button onclick="hideGeneVault()" class="text-3xl leading-none text-white/60 hover:text-white">&times;</button>
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-5 gap-3" id="gene-vault-slots">
           <!-- Populated by JavaScript -->
-        </div>
-
-        <div class="mt-6 text-center text-xs text-white/50">
-          Slots can be unlocked with Aetherium Crystals. Place eggs from Inventory to preserve brains across prestige.
         </div>
       </div>
     </div>
