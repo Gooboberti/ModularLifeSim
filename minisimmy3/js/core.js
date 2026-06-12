@@ -1,9 +1,9 @@
-// MiniSimmy3 - Core + Gene Vault scaffolding
+// MiniSimmy3 - Core + Improved Gene Vault (Chunk 10)
 
 let creatures = [];
 let vortexParticles = [];
 let pheromones = [];
-let geneVaultSlots = Array(10).fill(null); // 10 slots, initially empty
+let geneVaultSlots = Array(10).fill(null);
 let centerX, centerY;
 let timeScale = 1;
 let paused = false;
@@ -86,7 +86,7 @@ function draw() {
   simTime += timeScale;
 }
 
-// ==================== GENE VAULT ====================
+// ==================== GENE VAULT (Improved) ====================
 function showGeneVault() {
   const modal = document.getElementById('gene-vault-modal');
   const container = document.getElementById('gene-vault-slots');
@@ -94,30 +94,37 @@ function showGeneVault() {
 
   for (let i = 0; i < 10; i++) {
     const slot = document.createElement('div');
-    slot.className = 'bg-[#0a0a0f] border border-white/10 rounded-2xl p-3 min-h-[110px] flex flex-col';
+    slot.className = 'bg-[#0a0a0f] border border-white/10 rounded-2xl p-3 min-h-[120px] flex flex-col cursor-pointer hover:border-violet-400/50 transition-colors';
 
     if (i < 2) {
-      // First 2 slots unlocked
       if (geneVaultSlots[i]) {
+        const egg = geneVaultSlots[i];
         slot.innerHTML = `
-          <div class="text-xs text-emerald-400 font-semibold">Slot ${i+1}</div>
-          <div class="text-sm mt-1">${geneVaultSlots[i].name}</div>
-          <div class="text-[10px] text-white/50">Gen ${geneVaultSlots[i].generation} • ${geneVaultSlots[i].modules.length} modules</div>
+          <div class="text-xs text-emerald-400 font-semibold">Slot ${i+1} • Occupied</div>
+          <div class="text-sm mt-1 font-medium">${egg.name}</div>
+          <div class="text-[10px] text-white/50">Gen ${egg.generation} • ${egg.modules.length} modules</div>
+          <div class="mt-auto pt-2 text-[10px] text-emerald-400/70">Click to view / replace</div>
         `;
+        slot.onclick = () => { /* future: show egg details or replace */ };
       } else {
         slot.innerHTML = `
           <div class="text-xs text-emerald-400 font-semibold">Slot ${i+1} (Unlocked)</div>
-          <div class="text-[10px] text-white/50 mt-2">Empty - Place egg from Inventory</div>
+          <div class="text-[10px] text-white/50 mt-2">Empty</div>
+          <div class="mt-auto">
+            <button onclick="event.stopImmediatePropagation(); placeSelectedCreatureInVault(${i});" 
+                    class="mt-2 w-full text-xs px-3 py-1.5 bg-emerald-500/90 hover:bg-emerald-500 rounded-xl text-[#05070f] font-medium">
+              Place Selected Creature
+            </button>
+          </div>
         `;
       }
     } else {
-      // Locked slots
       slot.innerHTML = `
         <div class="text-xs text-white/40 font-semibold">Slot ${i+1}</div>
         <div class="mt-4 flex justify-center">
           <i class="fa-solid fa-lock text-white/30 text-xl"></i>
         </div>
-        <div class="text-[10px] text-center text-white/40 mt-1">Locked</div>
+        <div class="text-[10px] text-center text-white/40 mt-1">Locked (250M points or 5 crystals)</div>
       `;
     }
 
@@ -134,4 +141,28 @@ function hideGeneVault() {
   modal.classList.add('hidden');
 }
 
-// ... (rest of previous functions stay the same)
+function placeSelectedCreatureInVault(slotIndex) {
+  if (!selectedCreature) {
+    alert("Please select a creature in the inspector first.");
+    return;
+  }
+  if (slotIndex >= 2) return;
+
+  // Create egg data (deep copy of brain)
+  const eggData = {
+    name: selectedCreature.name,
+    generation: selectedCreature.generation,
+    modules: JSON.parse(JSON.stringify(selectedCreature.modules)),
+    killCount: selectedCreature.killCount || 0,
+    childrenCount: selectedCreature.childrenCount || 0
+  };
+
+  geneVaultSlots[slotIndex] = eggData;
+  hideGeneVault();
+  showGeneVault(); // refresh
+
+  // Visual feedback
+  addFloatingText(selectedCreature.x, selectedCreature.y - 25, "Egg stored in Vault", '#a78bfa');
+}
+
+// ... rest of core.js remains the same as previous version
