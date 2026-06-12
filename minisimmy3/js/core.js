@@ -1,4 +1,4 @@
-// MiniSimmy3 - Core + Basic UI
+// MiniSimmy3 - Core + Expanded Inspector
 
 let creatures = [];
 let vortexParticles = [];
@@ -36,13 +36,11 @@ function draw() {
 
   if (frameCount % 550 === 0) isDay = !isDay;
 
-  // Draw zones
   fill(16, 185, 129, 50);
   circle(greenZone.x, greenZone.y, greenZone.baseR * 2);
   fill(56, 189, 248, 50);
   circle(blueZone.x, blueZone.y, blueZone.baseR * 2);
 
-  // Pheromones
   for (let i = pheromones.length - 1; i >= 0; i--) {
     let p = pheromones[i];
     p.life -= timeScale * 0.9;
@@ -51,24 +49,22 @@ function draw() {
     circle(p.x, p.y, 3.5);
   }
 
-  // Vortex
   for (let p of vortexParticles) {
     p.update(1, 1.15);
     p.show();
   }
 
-  // Creatures
   for (let i = creatures.length - 1; i >= 0; i--) {
     let c = creatures[i];
     c.update(isDay, 1, 1.15, timeScale, pheromones);
 
     if (c.energy <= 0) {
       creatures.splice(i, 1);
-      if (selectedCreature === c) selectedCreature = null;
+      if (selectedCreature === c) { selectedCreature = null; document.getElementById('inspector').classList.add('hidden'); }
       continue;
     }
 
-    if (c.energy > 70 && c.reproCooldown <= 0 && random() < 0.0032 * timeScale) {
+    if (c.energy > 70 && c.reproCooldown <= 0 && random() < 0.003 * timeScale) {
       creatures.push(c.reproduce());
       c.energy -= 15;
       c.reproCooldown = 150;
@@ -77,15 +73,15 @@ function draw() {
 
   for (let c of creatures) c.show();
 
-  // Highlight selected
   if (selectedCreature) {
-    stroke(255, 255, 255, 180);
+    stroke(255, 255, 255, 160);
     strokeWeight(2);
     noFill();
     circle(selectedCreature.x, selectedCreature.y, 18);
   }
 
   updateUI();
+  if (selectedCreature) updateInspector();
   simTime += timeScale;
 }
 
@@ -93,6 +89,7 @@ function handleMousePress() {
   for (let c of creatures) {
     if (dist(mouseX, mouseY, c.x, c.y) < 14) {
       selectedCreature = c;
+      document.getElementById('inspector').classList.remove('hidden');
       updateInspector();
       return;
     }
@@ -110,12 +107,32 @@ function updateUI() {
 
 function updateInspector() {
   if (!selectedCreature) return;
-  const panel = document.getElementById('inspector');
-  panel.classList.remove('hidden');
 
-  document.getElementById('inspect-name').innerText = selectedCreature.name;
-  document.getElementById('inspect-info').innerText =
-    `Gen ${selectedCreature.generation} • ${selectedCreature.modules.length} modules • Energy: ${floor(selectedCreature.energy)}`;
+  const c = selectedCreature;
+  document.getElementById('inspect-name').innerText = c.name;
+  document.getElementById('inspect-role').innerText = c.role || c.specialization;
+  document.getElementById('inspect-gen').innerText = c.generation;
+  document.getElementById('inspect-energy').innerText = Math.floor(c.energy);
+  document.getElementById('inspect-module-count').innerText = c.modules.length;
+
+  // Modules list
+  const modContainer = document.getElementById('inspect-modules');
+  modContainer.innerHTML = '';
+
+  if (c.modules.length === 0) {
+    modContainer.innerHTML = `<div class="text-white/50">No modules</div>`;
+  } else {
+    c.modules.forEach(m => {
+      const tier = m.tier || 1;
+      const div = document.createElement('div');
+      div.className = 'flex justify-between text-xs py-px';
+      div.innerHTML = `
+        <span style="color: ${m.color}">${m.type}</span>
+        <span class="text-amber-400">${tier > 1 ? 'T' + tier : ''}</span>
+      `;
+      modContainer.appendChild(div);
+    });
+  }
 }
 
 function deselectCreature() {
@@ -123,9 +140,7 @@ function deselectCreature() {
   document.getElementById('inspector').classList.add('hidden');
 }
 
-function setTimeScale(scale) {
-  timeScale = scale;
-}
+function setTimeScale(scale) { timeScale = scale; }
 
 function togglePause() {
   paused = !paused;

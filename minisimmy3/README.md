@@ -4,10 +4,9 @@
 
 - [x] Modular structure
 - [x] Creature class
-- [x] Vortex + Food zones
-- [x] Energy, death, reproduction
+- [x] Vortex, zones, energy, reproduction
 - [x] Pheromones + social behavior
-- [x] Basic top bar UI (Pop + Time + Speed + Pause)
-- [x] Click to select creature + simple inspector
+- [x] Top bar + speed/pause controls
+- [x] Click-to-select + expanded inspector (name, role, gen, energy, modules list)
 
-Next: Expand inspector, add more module effects, start Gene Vault migration.
+Next small chunks: More module effects, start Gene Vault, predator system, or further UI polish.

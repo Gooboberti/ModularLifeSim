@@ -20,22 +20,14 @@
           </div>
           <span class="font-display text-2xl tracking-tighter">MiniSimmy3</span>
         </div>
-        <span class="text-xs px-2.5 py-0.5 bg-sky-500/20 text-sky-400 rounded-full font-mono">v0.4</span>
+        <span class="text-xs px-2.5 py-0.5 bg-sky-500/20 text-sky-400 rounded-full font-mono">v0.5</span>
       </div>
 
-      <!-- Stats -->
       <div class="flex items-center gap-x-4 text-sm">
-        <div class="flex items-center gap-x-1.5">
-          <span class="text-white/50">Pop</span>
-          <span id="stat-pop" class="font-mono font-semibold text-emerald-400">16</span>
-        </div>
-        <div class="flex items-center gap-x-1.5">
-          <span class="text-white/50">Time</span>
-          <span id="stat-time" class="font-mono font-semibold">00:00</span>
-        </div>
+        <div><span class="text-white/50">Pop</span> <span id="stat-pop" class="font-mono font-semibold text-emerald-400">16</span></div>
+        <div><span class="text-white/50">Time</span> <span id="stat-time" class="font-mono font-semibold">00:00</span></div>
       </div>
 
-      <!-- Speed Controls -->
       <div class="flex items-center gap-x-1 bg-[#121218] border border-white/10 rounded-2xl p-1 text-xs">
         <button onclick="setTimeScale(0.5)" class="px-3 py-1 rounded-xl hover:bg-white/10">0.5×</button>
         <button onclick="setTimeScale(1)" class="px-3 py-1 rounded-xl bg-emerald-500 text-[#0a0a0f] font-semibold">1×</button>
@@ -47,17 +39,27 @@
       </div>
     </div>
 
-    <!-- Canvas -->
     <div id="canvas-container" class="mx-auto w-[820px] rounded-3xl border border-white/10 overflow-hidden shadow-2xl"></div>
 
-    <!-- Simple Inspector -->
+    <!-- Expanded Inspector -->
     <div id="inspector" class="hidden mt-3 mx-auto w-[820px] bg-[#121218] border border-white/10 rounded-2xl p-4">
-      <div class="flex justify-between items-start">
+      <div class="flex justify-between items-start mb-3">
         <div>
-          <div id="inspect-name" class="font-semibold text-emerald-400 text-lg"></div>
-          <div id="inspect-info" class="text-xs text-white/60 mt-0.5"></div>
+          <div id="inspect-name" class="font-semibold text-emerald-400 text-xl"></div>
+          <div id="inspect-role" class="text-xs text-white/60"></div>
         </div>
-        <button onclick="deselectCreature()" class="text-white/50 hover:text-white">Close</button>
+        <button onclick="deselectCreature()" class="text-sm px-3 py-1 bg-white/10 hover:bg-white/20 rounded-xl">Close</button>
+      </div>
+
+      <div class="grid grid-cols-3 gap-3 text-sm mb-3">
+        <div><span class="text-white/50 text-xs">Generation</span><br><span id="inspect-gen" class="font-mono"></span></div>
+        <div><span class="text-white/50 text-xs">Energy</span><br><span id="inspect-energy" class="font-mono text-emerald-400"></span></div>
+        <div><span class="text-white/50 text-xs">Modules</span><br><span id="inspect-module-count" class="font-mono"></span></div>
+      </div>
+
+      <div>
+        <div class="text-xs text-white/50 mb-1">Modules</div>
+        <div id="inspect-modules" class="text-xs bg-[#0a0a0f] border border-white/10 rounded-xl p-2 max-h-20 overflow-auto"></div>
       </div>
     </div>
   </div>
