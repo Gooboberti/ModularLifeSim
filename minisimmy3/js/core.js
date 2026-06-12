@@ -1,4 +1,4 @@
-// MiniSimmy3 - Core + Improved Furnace (Chunk 19)
+// MiniSimmy3 - Core + Improved Prestige (Chunk 20)
 
 let creatures = [];
 let vortexParticles = [];
@@ -133,7 +133,7 @@ function updateFurnace() {
       const remaining = Math.max(0, Math.floor((furnaceEndTime - Date.now()) / 1000));
       const min = Math.floor(remaining / 60);
       const sec = remaining % 60;
-      multText.innerText = `x100 (${min}:${sec.toString().padStart(2, '0')})`;
+      multText.innerText = `x100 (${min}:${sec.toString().padStart(2,'0')})`;
     }
   } else {
     if (multEl) {
@@ -159,33 +159,40 @@ function updateUI() {
   if (badge) badge.innerText = `${eggs.length}/${MAX_EGGS}`;
 }
 
-function showFurnaceModal() {
-  const modal = document.getElementById('furnace-modal');
-  const crystalsEl = document.getElementById('furnace-crystals');
-  if (crystalsEl) crystalsEl.innerText = aetheriumCrystals;
-  modal.classList.remove('hidden');
-  modal.classList.add('flex');
-}
-
-function hideFurnaceModal() {
-  const modal = document.getElementById('furnace-modal');
-  modal.classList.remove('flex');
-  modal.classList.add('hidden');
-}
-
-function burnCrystals(amount) {
-  if (aetheriumCrystals < amount) {
-    alert("Not enough Aetherium Crystals.");
+function prestige() {
+  if (!confirm('Prestige now?\n\nThis will reset the simulation but keep your Gene Vault.\nYou will convert HRP into Aetherium Crystals.')) {
     return;
   }
 
-  aetheriumCrystals -= amount;
-  burningCrystals = amount;
-  furnaceEndTime = Date.now() + (5 * 60 * 1000);
+  // Improved conversion: 1 crystal per 30,000 HRP (more generous)
+  const crystalsGained = Math.floor(highRollerPoints / 30000);
+  aetheriumCrystals += Math.max(1, crystalsGained); // At least 1 crystal
 
-  hideFurnaceModal();
+  // Reset simulation
+  creatures = [];
+  pheromones = [];
+  vortexParticles = [];
+  simTime = 0;
+  highRollerPoints = 0;
+  selectedCreature = null;
+  document.getElementById('inspector').classList.add('hidden');
+
+  for (let i = 0; i < 170; i++) {
+    vortexParticles.push(new VortexParticle());
+  }
+
+  for (let i = 0; i < 16; i++) {
+    creatures.push(new Creature(random(width), random(height)));
+  }
+
+  highRollerPoints = 20000; // Better starting bonus
+
   updateUI();
-  addFloatingText(width/2, 100, `Furnace active! x100 for 5 min`, '#f59e0b');
+  const scoreEl = document.getElementById('stat-score');
+  if (scoreEl) scoreEl.innerText = highRollerPoints.toLocaleString();
+
+  addFloatingText(width/2, height/2 - 40, `Prestiged! +${crystalsGained} Aetherium`, '#a78bfa');
+  addFloatingText(width/2, height/2 - 15, `Gene Vault preserved`, '#10b981');
 }
 
-// Gene Vault, Inventory, Prestige functions remain from previous chunks...
+// Gene Vault, Inventory, Furnace functions remain from previous chunks...
