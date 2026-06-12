@@ -1,20 +1,4 @@
-// ==================== FULL PROGRESS SAVING (Chunk 37) ====================
-// Now also saves Gene Vault slots
-
-function saveProgress() {
-  try {
-    const progress = {
-      eggs: eggs,
-      highRollerPoints: highRollerPoints,
-      aetheriumCrystals: aetheriumCrystals,
-      geneVaultSlots: geneVaultSlots,
-      lastSaved: Date.now()
-    };
-    localStorage.setItem('minisimmy3_progress', JSON.stringify(progress));
-  } catch (e) {
-    console.warn('[MiniSimmy3] Could not save full progress');
-  }
-}
+// ==================== LOADING + UI REFRESH (Chunk 38) ====================
 
 function loadProgress() {
   try {
@@ -25,10 +9,17 @@ function loadProgress() {
       if (data.highRollerPoints) highRollerPoints = data.highRollerPoints;
       if (data.aetheriumCrystals) aetheriumCrystals = data.aetheriumCrystals;
       if (data.geneVaultSlots) geneVaultSlots = data.geneVaultSlots;
+
+      // Refresh top bar stats after loading
+      setTimeout(() => {
+        updateUI();
+        const scoreEl = document.getElementById('stat-score');
+        if (scoreEl) scoreEl.innerText = highRollerPoints.toLocaleString();
+        const crystalsEl = document.getElementById('stat-crystals');
+        if (crystalsEl) crystalsEl.innerText = aetheriumCrystals;
+      }, 100);
     }
   } catch (e) {
-    // ignore
+    // ignore corrupt data
   }
 }
-
-// autoSaveEggs already calls saveProgress, so Gene Vault is now saved automatically too.
