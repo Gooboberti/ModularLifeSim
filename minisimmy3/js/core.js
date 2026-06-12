@@ -1,28 +1,25 @@
-function setup() {
-  try {
-    let canvas = createCanvas(820, 580);
-    
-    const container = document.getElementById('canvas-container');
-    if (container) {
-      canvas.parent(container);
-    } else {
-      console.warn('canvas-container not found');
-    }
+// ==================== GLOBAL VARIABLES ====================
+let creatures = [];
+let vortexParticles = [];
+let pheromones = [];
+let geneVaultSlots = Array(10).fill(null);
+let eggs = [];
+let centerX, centerY;
+let timeScale = 1;
+let paused = false;
+let simTime = 0;
+let isDay = true;
+let selectedCreature = null;
+let highRollerPoints = 0;
+let aetheriumCrystals = 0;
+let burningCrystals = 0;
+let furnaceEndTime = 0;
+let lastScoreUpdate = 0;
 
-    centerX = width / 2;
-    centerY = height / 2;
+const MAX_EGGS = 10;
 
-    if (typeof loadProgress === 'function') loadProgress();
+// Food zones
+let greenZone = { x: 200, y: 290, baseR: 105, food: 420 };
+let blueZone  = { x: 620, y: 290, baseR: 105, food: 420 };
 
-    for (let i = 0; i < 18; i++) {
-      creatures.push(new Creature(random(width), random(height)));
-    }
-
-    for (let i = 0; i < 170; i++) {
-      vortexParticles.push(new VortexParticle());
-    }
-
-  } catch (e) {
-    console.error('Setup error:', e);
-  }
-}
+// ==================== SETUP ====================
