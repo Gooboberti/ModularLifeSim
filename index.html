@@ -1,1 +1,162 @@
-READ_CURRENT
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modular Life Sim • Experiments</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .font-display { font-family: 'Space Grotesk', 'Inter', sans-serif; }
+    .sci-fi-bg { background: #05070f; }
+    .experiment-card { transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.2s ease; }
+    .experiment-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
+    .neon-cyan { color: #67e8f9; text-shadow: 0 0 8px rgb(103 232 249 / 0.4); }
+    .section-header { position: relative; display: inline-block; }
+    .section-header:after { content: ''; position: absolute; bottom: -6px; left: 0; height: 1px; width: 100%; background: linear-gradient(to right, #67e8f9, transparent); }
+  </style>
+</head>
+<body class="sci-fi-bg text-slate-200">
+  <div class="max-w-screen-2xl mx-auto px-8 pt-12 pb-20">
+    <!-- Header -->
+    <div class="flex items-end justify-between mb-12">
+      <div>
+        <div class="flex items-center gap-x-3">
+          <div class="w-9 h-9 rounded-2xl bg-gradient-to-br from-cyan-400 via-sky-400 to-indigo-400 flex items-center justify-center">
+            <i class="fa-solid fa-atom text-[#05070f] text-3xl"></i>
+          </div>
+          <div class="font-display text-5xl tracking-[-2.5px] font-semibold">Modular Life Sim</div>
+        </div>
+        <div class="text-cyan-400/70 text-sm tracking-[3px] font-mono mt-1 ml-1">EXPERIMENTS</div>
+      </div>
+      <div class="text-right text-sm text-white/50">
+        <div>Gooboberti</div>
+        <div class="text-xs">Fresno, CA</div>
+      </div>
+    </div>
+
+    <div class="max-w-2xl mb-14">
+      <p class="text-2xl leading-tight text-white/90">A collection of evolving simulations exploring modular artificial life, creature ecosystems, and long-term emergent complexity.</p>
+    </div>
+
+    <!-- Experiments Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      <!-- MiniSimmy3 Card -->
+      <a href="minisimmy3/index.html" class="experiment-card group block rounded-3xl border border-white/10 bg-[#0a0f1a] overflow-hidden hover:border-cyan-400/30">
+        <div class="p-7">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-x-3">
+              <div class="w-9 h-9 rounded-2xl bg-gradient-to-br from-cyan-400 to-sky-500 flex items-center justify-center">
+                <i class="fa-solid fa-atom text-[#05070f]"></i>
+              </div>
+              <div>
+                <div class="font-semibold text-xl tracking-tight group-hover:text-cyan-400 transition-colors">MiniSimmy3</div>
+                <div class="text-xs text-emerald-400 font-mono">v0.9 • Modular</div>
+              </div>
+            </div>
+            <div class="px-3 py-1 text-[10px] font-mono rounded-2xl bg-emerald-400/10 text-emerald-400">LIVE</div>
+          </div>
+          <p class="text-white/70 text-sm leading-relaxed mb-5">Next-generation modular creature evolution simulation. Clean architecture, full feature parity goal.</p>
+          <div class="flex items-center gap-x-2 text-xs">
+            <div class="px-3 py-1 bg-white/5 rounded-2xl">Vortex • Modules • Gene Vault</div>
+          </div>
+        </div>
+        <div class="px-7 py-4 border-t border-white/10 bg-black/20 flex items-center justify-between text-xs">
+          <div class="text-white/50">Click to enter simulation</div>
+          <i class="fa-solid fa-arrow-right group-hover:translate-x-0.5 transition-transform"></i>
+        </div>
+      </a>
+
+      <!-- MiniSimmy2 Card (original) -->
+      <a href="minisimmy2/index.html" class="experiment-card group block rounded-3xl border border-white/10 bg-[#0a0f1a] overflow-hidden hover:border-white/30">
+        <div class="p-7">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <div class="font-semibold text-xl tracking-tight">MiniSimmy2</div>
+              <div class="text-xs text-white/50 font-mono">v2.11 • Monolithic</div>
+            </div>
+            <div class="px-3 py-1 text-[10px] font-mono rounded-2xl bg-white/10 text-white/60">STABLE</div>
+          </div>
+          <p class="text-white/70 text-sm leading-relaxed mb-5">The original single-file version with full features: Gene Vault, predators, economy, hazards, music reactivity.</p>
+          <div class="flex items-center gap-x-2 text-xs">
+            <div class="px-3 py-1 bg-white/5 rounded-2xl">Full featured reference</div>
+          </div>
+        </div>
+        <div class="px-7 py-4 border-t border-white/10 bg-black/20 flex items-center justify-between text-xs">
+          <div class="text-white/50">View original all-in-one version</div>
+          <i class="fa-solid fa-arrow-right group-hover:translate-x-0.5 transition-transform"></i>
+        </div>
+      </a>
+
+      <!-- Roadmap Card -->
+      <a href="minisimmy3-roadmap.html" class="experiment-card group block rounded-3xl border border-white/10 bg-[#0a0f1a] overflow-hidden hover:border-violet-400/40">
+        <div class="p-7">
+          <div class="flex items-center gap-x-3 mb-4">
+            <div class="w-9 h-9 rounded-2xl bg-gradient-to-br from-violet-400 to-fuchsia-400 flex items-center justify-center">
+              <i class="fa-solid fa-map text-[#05070f]"></i>
+            </div>
+            <div class="font-semibold text-xl tracking-tight group-hover:text-violet-400 transition-colors">MiniSimmy3 Roadmap</div>
+          </div>
+          <p class="text-white/70 text-sm leading-relaxed mb-5">Complete progress log of the modular rebuild. See what has been completed and what remains until full parity with the original MiniSimmy2.</p>
+          <div class="text-xs px-3 py-1 inline-block rounded-2xl bg-violet-400/10 text-violet-400">9 chunks done • Full rebuild in progress</div>
+        </div>
+        <div class="px-7 py-4 border-t border-white/10 bg-black/20 flex items-center justify-between text-xs">
+          <div class="text-white/50">View detailed roadmap</div>
+          <i class="fa-solid fa-arrow-right group-hover:translate-x-0.5 transition-transform"></i>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="mt-16 text-center text-xs text-white/40">
+      Built with p5.js • Tailwind • Love for emergent systems
+    </div>
+  </div>
+
+  <script>
+    // Simple sci-fi button click sounds
+    function playSciFiClick() {
+      try {
+        const audio = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audio.createOscillator();
+        const gain = audio.createGain();
+        const filter = audio.createBiquadFilter();
+
+        osc.type = 'sawtooth';
+        osc.frequency.value = 680;
+        filter.type = 'lowpass';
+        filter.frequency.value = 1400;
+
+        gain.gain.value = 0.12;
+        gain.gain.linearRampToValueAtTime(0.0001, audio.currentTime + 0.28);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(audio.destination);
+
+        osc.start();
+        setTimeout(() => { try { osc.stop(); } catch(e){} }, 320);
+      } catch(e) {}
+    }
+
+    // Attach subtle sci-fi sounds to all experiment cards
+    document.querySelectorAll('.experiment-card').forEach(card => {
+      card.addEventListener('click', () => {
+        playSciFiClick();
+      });
+    });
+
+    // Also add sound to any other interactive elements
+    document.querySelectorAll('a, button').forEach(el => {
+      if (!el.classList.contains('experiment-card')) {
+        el.addEventListener('click', () => {
+          if (Math.random() > 0.6) playSciFiClick();
+        });
+      }
+    });
+  </script>
+</body>
+</html>
