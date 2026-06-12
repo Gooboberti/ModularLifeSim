@@ -1,32 +1,22 @@
-// ==================== LAST SAVED DISPLAY (Chunk 40) ====================
+// ==================== CLEAR SAVED DATA (Chunk 45) ====================
 
-function updateLastSavedDisplay() {
-  const el = document.getElementById('last-saved-info');
-  if (!el) return;
+function clearSavedProgress() {
+  if (!confirm('Clear all saved progress? This cannot be undone.')) return;
 
-  try {
-    const saved = localStorage.getItem('minisimmy3_progress');
-    if (saved) {
-      const data = JSON.parse(saved);
-      if (data.lastSaved) {
-        const date = new Date(data.lastSaved);
-        const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        el.innerHTML = `Last saved: ${timeStr}`;
-      }
-    } else {
-      el.innerHTML = 'No saved progress yet';
-    }
-  } catch (e) {
-    el.innerHTML = '';
-  }
-}
+  localStorage.removeItem('minisimmy3_progress');
+  localStorage.removeItem('minisimmy3_eggs');
 
-// Call this when opening the Game Guide
-// We can hook it into showGameGuide() later if needed.
+  // Reset in-memory data
+  eggs = [];
+  geneVaultSlots = Array(10).fill(null);
+  highRollerPoints = 0;
+  aetheriumCrystals = 0;
 
-// For now, we update it when the manual save button is used
-function manualSaveProgress() {
-  saveProgress();
-  showSaveToast('Progress saved manually');
-  updateLastSavedDisplay();
+  updateUI();
+  showSaveToast('Saved progress cleared');
+
+  // Reload the page to fully reset the simulation
+  setTimeout(() => {
+    location.reload();
+  }, 800);
 }
