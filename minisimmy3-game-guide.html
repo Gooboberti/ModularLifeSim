@@ -1,169 +1,29 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MiniSimmy3 Game Guide • ModularLifeSim</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <style>
-    body { font-family: 'Inter', system_ui, sans-serif; }
-    .section-header { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: #34d399; border-bottom: 2px solid #166534; padding-bottom: 0.5rem; }
-    .sub-header { font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.75rem; color: #e0e0ea; font-size: 1.15rem; }
-    .example-box { background: #121218; border: 1px solid #334155; border-radius: 12px; padding: 1rem; font-size: 0.95rem; margin: 1rem 0; }
-    .mechanic { background: #0f172a; border-left: 4px solid #34d399; padding: 1rem; margin: 1rem 0; }
-  </style>
-</head>
-<body class="bg-[#0a0a0f] text-[#e0e0ea]">
-  <div class="max-w-screen-xl mx-auto px-6 py-10">
-    <div class="flex items-center justify-between mb-10">
-      <div>
-        <h1 class="text-5xl font-semibold tracking-tighter">MiniSimmy3 Game Guide</h1>
-        <p class="text-white/50 mt-2 text-lg">Complete technical reference for all systems and mechanics</p>
-      </div>
-      <a href="index.html" class="px-5 py-2.5 rounded-2xl border border-white/10 hover:bg-white/5 text-sm">Back to Experiments</a>
+<div class="mb-16">
+  <div class="section-header flex items-center gap-x-3"><i class="fa-solid fa-save"></i> Saving System</div>
+  <div class="max-w-4xl text-white/80 space-y-4">
+    <p>MiniSimmy3 uses browser localStorage to persist your progress between sessions.</p>
+    
+    <div class="mechanic">
+      <strong>What gets saved:</strong><br>
+      - All eggs in your Inventory<br>
+      - Gene Vault contents<br>
+      - High Roller Points<br>
+      - Aetherium Crystals<br>
     </div>
 
-    <!-- OVERVIEW -->
-    <div class="mb-16">
-      <div class="section-header">1. Overview</div>
-      <div class="max-w-4xl text-white/80 space-y-4 text-[15px] leading-relaxed">
-        <p>MiniSimmy3 is a modular creature evolution simulation focused on long-term progression, gene preservation, and emergent behavior.</p>
-        <p>Creatures exist in a contained environment with a central vortex. They move, consume energy, reproduce, and evolve through modules that grant special abilities. Over time, you can extract strong creatures into eggs, store them in the Gene Vault, and carry powerful lineages across Prestige resets.</p>
-        <p>The core loop is: <strong>Observe → Extract strong creatures → Preserve in Gene Vault → Prestige → Repeat with stronger starting conditions</strong>.</p>
-      </div>
-    </div>
+    <p>The system automatically saves after important actions (extracting eggs, moving to vault, prestige, etc.). You can also manually save from the Game Guide.</p>
 
-    <!-- CORE SIMULATION -->
-    <div class="mb-16">
-      <div class="section-header">2. Core Simulation Loop</div>
-      <div class="max-w-4xl space-y-6 text-white/80">
-        <p>The simulation runs continuously. Every frame the game performs these steps:</p>
-        
-        <div class="mechanic">
-          <strong>1. Environment Update</strong><br>
-          Day/Night cycle toggles every ~550 frames. This switches which food zone is active (green = day, blue = night).
-        </div>
-
-        <div class="mechanic">
-          <strong>2. Pheromone Update</strong><br>
-          Pheromones decay over time. Creatures with Communicator modules release new ones.
-        </div>
-
-        <div class="mechanic">
-          <strong>3. Vortex &amp; Particle Update</strong><br>
-          Vortex particles are updated. They create the visual spiraling effect and influence creature movement.
-        </div>
-
-        <div class="mechanic">
-          <strong>4. Creature Update</strong><br>
-          Every creature updates its position, energy, behavior, and checks for reproduction or death.
-        </div>
-
-        <div class="mechanic">
-          <strong>5. Rendering</strong><br>
-          All creatures, particles, pheromones, and food zones are drawn.
-        </div>
-
-        <div class="mechanic">
-          <strong>6. UI Update</strong><br>
-          Top bar stats (population, time, score, crystals, egg count) are refreshed.
-        </div>
-      </div>
-    </div>
-
-    <!-- CREATURES & MODULES -->
-    <div class="mb-16">
-      <div class="section-header">3. Creatures &amp; Modules (Deep Dive)</div>
-      
-      <div class="max-w-4xl space-y-8 text-white/80">
-        <p>Every creature is defined by its <strong>modules</strong>. Modules determine specialization, behavior, and survival strategy.</p>
-
-        <div>
-          <div class="sub-header">Module Effects in Detail</div>
-          
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="example-box">
-              <strong class="text-emerald-400">Harvester</strong><br>
-              Increases attraction strength to active food zones. Stacking multiple Harvesters creates very strong food-seeking behavior. Higher tiers make creatures extremely efficient at gathering energy.
-            </div>
-            <div class="example-box">
-              <strong class="text-sky-400">Sensor</strong><br>
-              Gives creatures the ability to detect nearby predators and actively move away from them. This is one of the best defensive modules once predators start appearing.
-            </div>
-            <div class="example-box">
-              <strong class="text-violet-400">Mover</strong><br>
-              Improves the creature’s ability to resist and escape the central vortex. Very useful for maintaining population spread.
-            </div>
-            <div class="example-box">
-              <strong class="text-pink-400">Resistant</strong><br>
-              Reduces the rate at which energy is lost. This is one of the strongest modules for long-term survival and allowing creatures to reproduce more times before dying.
-            </div>
-            <div class="example-box">
-              <strong class="text-yellow-400">Explorer</strong><br>
-              Adds random movement variation. Creatures with Explorer modules tend to spread out more across the map instead of clustering.
-            </div>
-            <div class="example-box">
-              <strong class="text-purple-400">Communicator</strong><br>
-              Causes creatures to periodically release pheromones. Other creatures are attracted to these signals, creating social grouping behavior.
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="sub-header">How Modules Combine</div>
-          <p>Creatures can have multiple different modules. The more modules of the same type they have, the stronger that specialization becomes. When three modules of the same type exist on one creature, they can merge into a higher tier module.</p>
-          <div class="example-box mt-3">
-            <strong>Example:</strong> A creature with 3 Harvester modules can merge them into 1 Tier 2 Harvester. This is much stronger than three separate Tier 1 modules.
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- VORTEX -->
-    <div class="mb-16">
-      <div class="section-header">4. Vortex Mechanics</div>
-      <div class="max-w-4xl text-white/80 space-y-4">
-        <p>The central vortex is one of the defining environmental forces. It constantly pulls creatures toward the center of the map.</p>
-        <p>Creatures with high Mover or Explorer module counts can resist this pull more effectively. The vortex also creates interesting gameplay tension — clustering near the center is dangerous but sometimes necessary for reproduction or energy.</p>
-      </div>
-    </div>
-
-    <!-- GENE VAULT -->
-    <div class="mb-16">
-      <div class="section-header">5. Gene Vault (Core Progression System)</div>
-      <div class="max-w-4xl text-white/80 space-y-4">
-        <p>The Gene Vault is the most important long-term system in MiniSimmy3.</p>
-        
-        <div class="mechanic">
-          <strong>How it works:</strong><br>
-          You can extract strong creatures from the simulation into eggs. These eggs can then be placed into the Gene Vault. Creatures in the Gene Vault survive Prestige resets.
-        </div>
-
-        <p>In future updates, creatures stored in the Gene Vault will be able to influence the genetics of Prestige babies (prestige spawns), allowing you to carry forward desirable traits across runs.</p>
-
-        <p>Currently only 2 slots are unlocked. More slots will be unlockable with Aetherium Crystals.</p>
-      </div>
-    </div>
-
-    <!-- ECONOMY -->
-    <div class="mb-16">
-      <div class="section-header">6. Economy &amp; Furnace</div>
-      <div class="max-w-4xl text-white/80 space-y-4">
-        <p><strong>High Roller Points (HRP)</strong> is the main score. It is earned based on population, time survived, predator kills, and other factors.</p>
-        
-        <p><strong>Aetherium Crystals</strong> are earned when you Prestige. They are the premium currency used for the Furnace and future Gene Vault upgrades.</p>
-
-        <div class="mechanic">
-          <strong>Furnace System:</strong><br>
-          You can burn Aetherium Crystals in the Furnace to activate a temporary x100 score multiplier. Each crystal burned lasts for 5 minutes. Adding more crystals resets the timer and increases the total multiplier.
-        </div>
-      </div>
-    </div>
-
-    <div class="text-center py-12 text-white/40">
-      More sections (Saving System, UI Deep Dive, Advanced Mechanics) will be added in future updates.
-    </div>
+    <p>In the future, the saving system is designed to support exporting your full progress (including Gene Vault data) for use in the planned Ranch game.</p>
   </div>
-</body>
-</html>
+</div>
+
+<div class="mb-16">
+  <div class="section-header flex items-center gap-x-3"><i class="fa-solid fa-desktop"></i> User Interface Overview</div>
+  <div class="max-w-4xl text-white/80 space-y-4">
+    <p><strong>Top Bar:</strong> Shows current population, simulation time, High Roller Points, Aetherium Crystals, and egg count.</p>
+    <p><strong>Creature Inspector:</strong> Click any creature to see detailed information including generation, modules, energy, and behavior.</p>
+    <p><strong>Inventory:</strong> Stores extracted eggs. You can move eggs to the Gene Vault or delete them.</p>
+    <p><strong>Gene Vault:</strong> Long-term storage for powerful creatures across Prestige resets.</p>
+    <p><strong>Furnace:</strong> Burn Aetherium to temporarily multiply your score gain.</p>
+  </div>
+</div>
