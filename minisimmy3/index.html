@@ -9,13 +9,13 @@
   <script src="https://cdn.jsdelivr.net/npm/p5@1.11.3/lib/p5.min.js"></script>
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    .inspector-label { font-size: 10px; letter-spacing: 0.5px; color: #64748b; }
-    .stat-value { font-feature-settings: "tnum"; }
+    .modal { box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4); }
+    .inspector-label { font-size: 10px; letter-spacing: 0.5px; color: #64748b; text-transform: uppercase; }
   </style>
 </head>
 <body class="bg-[#0a0a0f] text-[#e0e0ea]">
   <div class="max-w-screen-2xl mx-auto p-4">
-    <!-- Top Bar - Closer to original style -->
+    <!-- Top Bar -->
     <div class="flex items-center justify-between mb-3 px-2">
       <div class="flex items-center gap-x-4">
         <div class="flex items-center gap-x-3">
@@ -24,12 +24,11 @@
           </div>
           <div>
             <span class="font-display text-3xl tracking-tighter font-semibold">MiniSimmy3</span>
-            <span class="ml-2 text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full font-mono">v0.22</span>
+            <span class="ml-2 text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full font-mono">v0.23</span>
           </div>
         </div>
       </div>
 
-      <!-- Stats - Original-like layout -->
       <div class="flex items-center gap-x-6 text-sm">
         <div class="flex items-center gap-x-4">
           <div class="flex items-baseline gap-x-1.5">
@@ -45,12 +44,10 @@
         <div class="h-5 w-px bg-white/10"></div>
 
         <div class="flex items-center gap-x-4">
-          <!-- HRP -->
           <div class="flex items-baseline gap-x-1.5">
             <span class="text-white/50 text-xs">HRP</span>
             <span id="stat-score" class="font-mono font-semibold text-amber-400 text-lg">0</span>
           </div>
-          <!-- Aetherium -->
           <div class="flex items-baseline gap-x-1.5">
             <span class="text-pink-400/70 text-xs">AETH</span>
             <span id="stat-crystals" class="font-mono font-semibold text-pink-400 text-lg">0</span>
@@ -84,7 +81,6 @@
           <span>Prestige</span>
         </button>
 
-        <!-- Speed Controls -->
         <div class="flex items-center bg-[#121218] border border-white/10 rounded-2xl p-1 text-xs ml-2">
           <button onclick="setTimeScale(0.5)" class="px-3 py-1.5 rounded-xl hover:bg-white/10">0.5×</button>
           <button onclick="setTimeScale(1)" class="px-3 py-1.5 rounded-xl bg-emerald-500 text-[#05070f] font-semibold">1×</button>
@@ -99,7 +95,7 @@
 
     <div id="canvas-container" class="mx-auto w-[820px] rounded-3xl border border-white/10 overflow-hidden shadow-2xl"></div>
 
-    <!-- Inspector - Closer to original style -->
+    <!-- Inspector -->
     <div id="inspector" class="hidden mt-3 mx-auto w-[820px] bg-[#121218] border border-white/10 rounded-2xl p-4">
       <div class="flex justify-between items-start mb-3">
         <div>

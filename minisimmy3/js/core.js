@@ -1,4 +1,4 @@
-// MiniSimmy3 - Core (Chunk 22 - Design alignment)
+// MiniSimmy3 - Core (Chunk 23 - Visual polish)
 
 let creatures = [];
 let vortexParticles = [];
@@ -96,5 +96,5 @@ function draw() {
   simTime += timeScale;
 }
 
-// All other functions (updateHighRollerPoints, updateFurnace, updateUI, prestige, burnCrystals, Gene Vault, Inventory, etc.) remain from previous chunks.
-// The design alignment is primarily in the HTML structure and classes above.
+// All core functions remain from previous chunks.
+// Visual polish focused on HTML/CSS in this chunk.
