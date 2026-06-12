@@ -2,29 +2,21 @@
 
 **Next-generation modular evolution simulation**
 
-This is the refactored, multi-file version of MiniSimmy2.
+## Progress (Small Chunks)
 
-## Current Status
-- Modular folder structure in place
-- Creature class extracted
-- Basic game loop started
-- UI system being migrated
+- [x] Basic modular folder structure
+- [x] Clean index.html with script loading
+- [x] Creature class extracted
+- [x] Basic game loop
+- [x] Vortex particles + forces
+- [x] Green/Blue food zones
+- [x] Energy system + death
+- [x] Basic reproduction
 
-## Folder Structure
-```
-minisimmy3/
-├── index.html
-├── js/
-│   ├── core.js
-│   ├── creatures.js
-│   ├── ui.js
-│   ├── economy.js
-│   ├── utils.js
-└── css/
-    └── style.css
-```
+## Next Chunks
+- Improve creature AI and module effects
+- Add pheromones and social behavior
+- Start rebuilding the top bar and inspector
+- Migrate Gene Vault system
 
-## Goals
-- Clean separation of concerns
-- Easier long-term maintenance
-- Better support for Gene Vault 2.0, Ranch system, and advanced features
+Current version is functional but still early stage.
