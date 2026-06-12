@@ -1,22 +1,25 @@
-// ==================== CLEAR SAVED DATA (Chunk 45) ====================
+// ==================== UI REFRESH AFTER LOADING (Chunk 46) ====================
 
-function clearSavedProgress() {
-  if (!confirm('Clear all saved progress? This cannot be undone.')) return;
+function loadProgress() {
+  try {
+    const saved = localStorage.getItem('minisimmy3_progress');
+    if (saved) {
+      const data = JSON.parse(saved);
+      if (data.eggs) eggs = data.eggs;
+      if (data.highRollerPoints) highRollerPoints = data.highRollerPoints;
+      if (data.aetheriumCrystals) aetheriumCrystals = data.aetheriumCrystals;
+      if (data.geneVaultSlots) geneVaultSlots = data.geneVaultSlots;
 
-  localStorage.removeItem('minisimmy3_progress');
-  localStorage.removeItem('minisimmy3_eggs');
-
-  // Reset in-memory data
-  eggs = [];
-  geneVaultSlots = Array(10).fill(null);
-  highRollerPoints = 0;
-  aetheriumCrystals = 0;
-
-  updateUI();
-  showSaveToast('Saved progress cleared');
-
-  // Reload the page to fully reset the simulation
-  setTimeout(() => {
-    location.reload();
-  }, 800);
+      // Refresh all relevant UI elements after loading
+      setTimeout(() => {
+        updateUI(); // This updates pop, time, score, crystals, and egg badge
+        const scoreEl = document.getElementById('stat-score');
+        if (scoreEl) scoreEl.innerText = highRollerPoints.toLocaleString();
+        const crystalsEl = document.getElementById('stat-crystals');
+        if (crystalsEl) crystalsEl.innerText = aetheriumCrystals;
+      }, 150);
+    }
+  } catch (e) {
+    // ignore
+  }
 }
