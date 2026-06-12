@@ -1,13 +1,13 @@
-// ============================================================
-// SAVING SYSTEM SUMMARY (as of Chunk 47)
-// ============================================================
-// - saveProgress() : Saves eggs, HRP, Aetherium, Gene Vault
-// - autoSaveEggs() : Called after key actions (extract, move, delete, prestige)
-// - loadProgress() : Loads everything on startup + refreshes UI
-// - manualSaveProgress() : Manual save button in Game Guide
-// - clearSavedProgress() : Reset button in Game Guide
-// - showSaveToast() : Visual feedback for save actions
-// - Last saved time displayed in Game Guide
-// All saving uses localStorage under 'minisimmy3_progress'
-// Designed to be clean, reliable, and easy to extend later
-// ============================================================
+/**
+ * MiniSimmy3 - Modular Creature Evolution Simulation
+ * 
+ * Current Focus (as of Chunk 48):
+ * - Saving System: Fully functional (Eggs + HRP + Aetherium + Gene Vault)
+ * - Game Guide: Comprehensive reference
+ * - Goal: Reach full mechanical + visual parity with original MiniSimmy2
+ * 
+ * Code Philosophy:
+ * - Clean, well-commented, easy to audit and extend
+ * - Small incremental chunks for safe development
+ * - No major visual redesigns — only refinement toward original look
+ */
