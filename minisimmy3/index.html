@@ -20,29 +20,39 @@
           </div>
           <span class="font-display text-2xl tracking-tighter">MiniSimmy3</span>
         </div>
-        <span class="text-xs px-2.5 py-0.5 bg-sky-500/20 text-sky-400 rounded-full font-mono">v0.5</span>
+        <span class="text-xs px-2.5 py-0.5 bg-sky-500/20 text-sky-400 rounded-full font-mono">v0.8</span>
       </div>
 
       <div class="flex items-center gap-x-4 text-sm">
-        <div><span class="text-white/50">Pop</span> <span id="stat-pop" class="font-mono font-semibold text-emerald-400">16</span></div>
+        <div><span class="text-white/50">Pop</span> <span id="stat-pop" class="font-mono font-semibold text-emerald-400">18</span></div>
         <div><span class="text-white/50">Time</span> <span id="stat-time" class="font-mono font-semibold">00:00</span></div>
       </div>
 
-      <div class="flex items-center gap-x-1 bg-[#121218] border border-white/10 rounded-2xl p-1 text-xs">
-        <button onclick="setTimeScale(0.5)" class="px-3 py-1 rounded-xl hover:bg-white/10">0.5×</button>
-        <button onclick="setTimeScale(1)" class="px-3 py-1 rounded-xl bg-emerald-500 text-[#0a0a0f] font-semibold">1×</button>
-        <button onclick="setTimeScale(2)" class="px-3 py-1 rounded-xl hover:bg-white/10">2×</button>
-        <button onclick="togglePause()" id="pause-btn" class="px-3 py-1 rounded-xl hover:bg-white/10 flex items-center gap-x-1.5">
-          <i class="fa-solid fa-pause text-xs"></i>
-          <span id="pause-text">Pause</span>
+      <div class="flex items-center gap-x-2">
+        <!-- Gene Vault Button -->
+        <button onclick="showGeneVault()"
+                class="flex items-center gap-x-1.5 px-3.5 py-1.5 bg-violet-600 hover:bg-violet-700 rounded-2xl text-xs font-medium transition-colors">
+          <i class="fa-solid fa-dna"></i>
+          <span>Gene Vault</span>
         </button>
+
+        <div class="flex items-center gap-x-1 bg-[#121218] border border-white/10 rounded-2xl p-1 text-xs">
+          <button onclick="setTimeScale(0.5)" class="px-3 py-1 rounded-xl hover:bg-white/10">0.5×</button>
+          <button onclick="setTimeScale(1)" class="px-3 py-1 rounded-xl bg-emerald-500 text-[#0a0a0f] font-semibold">1×</button>
+          <button onclick="setTimeScale(2)" class="px-3 py-1 rounded-xl hover:bg-white/10">2×</button>
+          <button onclick="togglePause()" id="pause-btn" class="px-3 py-1 rounded-xl hover:bg-white/10 flex items-center gap-x-1.5">
+            <i class="fa-solid fa-pause text-xs"></i>
+            <span id="pause-text">Pause</span>
+          </button>
+        </div>
       </div>
     </div>
 
     <div id="canvas-container" class="mx-auto w-[820px] rounded-3xl border border-white/10 overflow-hidden shadow-2xl"></div>
 
-    <!-- Expanded Inspector -->
+    <!-- Inspector -->
     <div id="inspector" class="hidden mt-3 mx-auto w-[820px] bg-[#121218] border border-white/10 rounded-2xl p-4">
+      <!-- Inspector content from previous chunk -->
       <div class="flex justify-between items-start mb-3">
         <div>
           <div id="inspect-name" class="font-semibold text-emerald-400 text-xl"></div>
@@ -60,6 +70,30 @@
       <div>
         <div class="text-xs text-white/50 mb-1">Modules</div>
         <div id="inspect-modules" class="text-xs bg-[#0a0a0f] border border-white/10 rounded-xl p-2 max-h-20 overflow-auto"></div>
+      </div>
+    </div>
+
+    <!-- Gene Vault Modal -->
+    <div id="gene-vault-modal" onclick="hideGeneVault()" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[100]">
+      <div onclick="event.stopImmediatePropagation()" class="modal bg-[#121218] border border-white/10 rounded-3xl max-w-4xl w-full mx-4 p-6">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h3 class="text-xl font-semibold flex items-center gap-x-2">
+              <i class="fa-solid fa-dna text-violet-400"></i>
+              <span>Gene Vault</span>
+            </h3>
+            <p class="text-sm text-white/50">Preserve and amplify powerful bloodlines</p>
+          </div>
+          <button onclick="hideGeneVault()" class="text-3xl leading-none text-white/60 hover:text-white">&times;</button>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-3" id="gene-vault-slots">
+          <!-- Populated by JavaScript -->
+        </div>
+
+        <div class="mt-6 text-center text-xs text-white/50">
+          Slots can be unlocked with Aetherium Crystals. Place eggs from Inventory to preserve brains across prestige.
+        </div>
       </div>
     </div>
   </div>

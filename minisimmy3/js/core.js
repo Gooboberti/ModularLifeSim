@@ -1,8 +1,9 @@
-// MiniSimmy3 - Core with Predator support
+// MiniSimmy3 - Core + Gene Vault scaffolding
 
 let creatures = [];
 let vortexParticles = [];
 let pheromones = [];
+let geneVaultSlots = Array(10).fill(null); // 10 slots, initially empty
 let centerX, centerY;
 let timeScale = 1;
 let paused = false;
@@ -85,4 +86,52 @@ function draw() {
   simTime += timeScale;
 }
 
-// ... (rest of core.js functions remain the same as previous chunk)
+// ==================== GENE VAULT ====================
+function showGeneVault() {
+  const modal = document.getElementById('gene-vault-modal');
+  const container = document.getElementById('gene-vault-slots');
+  container.innerHTML = '';
+
+  for (let i = 0; i < 10; i++) {
+    const slot = document.createElement('div');
+    slot.className = 'bg-[#0a0a0f] border border-white/10 rounded-2xl p-3 min-h-[110px] flex flex-col';
+
+    if (i < 2) {
+      // First 2 slots unlocked
+      if (geneVaultSlots[i]) {
+        slot.innerHTML = `
+          <div class="text-xs text-emerald-400 font-semibold">Slot ${i+1}</div>
+          <div class="text-sm mt-1">${geneVaultSlots[i].name}</div>
+          <div class="text-[10px] text-white/50">Gen ${geneVaultSlots[i].generation} • ${geneVaultSlots[i].modules.length} modules</div>
+        `;
+      } else {
+        slot.innerHTML = `
+          <div class="text-xs text-emerald-400 font-semibold">Slot ${i+1} (Unlocked)</div>
+          <div class="text-[10px] text-white/50 mt-2">Empty - Place egg from Inventory</div>
+        `;
+      }
+    } else {
+      // Locked slots
+      slot.innerHTML = `
+        <div class="text-xs text-white/40 font-semibold">Slot ${i+1}</div>
+        <div class="mt-4 flex justify-center">
+          <i class="fa-solid fa-lock text-white/30 text-xl"></i>
+        </div>
+        <div class="text-[10px] text-center text-white/40 mt-1">Locked</div>
+      `;
+    }
+
+    container.appendChild(slot);
+  }
+
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+}
+
+function hideGeneVault() {
+  const modal = document.getElementById('gene-vault-modal');
+  modal.classList.remove('flex');
+  modal.classList.add('hidden');
+}
+
+// ... (rest of previous functions stay the same)
