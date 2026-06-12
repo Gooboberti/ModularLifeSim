@@ -1,14 +1,15 @@
-// ==================== PROJECT STATE SUMMARY (Chunk 68) ====================
+// Recommended Next Steps (Chunk 69):
 // 
-// As of this chunk, the MiniSimmy3 codebase has undergone significant
-// refinement in the following areas:
+// 1. Manual testing of full flow:
+//    - Start game → Play for a while → Extract creature → Move to Vault → Prestige → Reload page
 // 
-// - Code legibility and documentation: Greatly improved across core.js and creatures.js
-// - Saving system: Fully functional, well-documented, and consistently called
-// - Modal system: Consistent show/hide pattern across all major modals
-// - UI consistency: updateUI() called reliably after state changes
-// - Audit verification: Multiple passes completed with documented findings
+// 2. Test Furnace:
+//    - Burn crystals → Verify x100 multiplier works → Check timer behavior
 // 
-// The project is now in a clean, maintainable, and well-documented state,
-// ready for more thorough manual testing.
-// ============================================================
+// 3. Test saving edge cases:
+//    - Delete eggs, import JSON, clear progress
+// 
+// 4. Visual check:
+//    - Compare creature rendering, modals, and top bar against original MiniSimmy2
+// 
+// Once these are verified, we can consider the project very close to 99.9% parity.
