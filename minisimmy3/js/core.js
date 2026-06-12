@@ -1,16 +1,20 @@
-// ==================== FURNACE SYSTEM ====================
+// ==================== GLOBAL VARIABLES ====================
 // 
-// The Furnace allows players to burn Aetherium Crystals for a temporary
-// but powerful score multiplier (x100 per crystal).
+// Core simulation state:
+// - creatures: Array of all active Creature objects
+// - vortexParticles: Visual particles in the central vortex
+// - pheromones: Chemical signals released by Communicator creatures
 // 
-// Key Functions:
-// - showFurnaceModal() / hideFurnaceModal()
-// - burnCrystals(amount)
-// - updateFurnace()
-// - getBurningMultiplier()
+// Progression & Economy:
+// - highRollerPoints: Main score currency
+// - aetheriumCrystals: Prestige currency (earned from HRP)
+// - burningCrystals / furnaceEndTime: Furnace state
 // 
-// Behavior:
-// - Burning crystals gives x100 score per crystal
-// - Timer is 5 minutes per burn session (resets when adding more)
-// - Multiplier is applied in updateHighRollerPoints()
+// Player Systems:
+// - eggs: Inventory of extracted creatures
+// - geneVaultSlots: Preserved creatures for long-term progression
+// 
+// Simulation State:
+// - paused, timeScale, simTime, isDay
+// - selectedCreature: Currently inspected creature
 // ============================================================
