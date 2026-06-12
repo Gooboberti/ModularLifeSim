@@ -11,30 +11,59 @@
 </head>
 <body class="bg-[#0a0a0f] text-[#e0e0ea]">
   <div class="max-w-screen-2xl mx-auto p-4">
-    <div class="flex items-center justify-between mb-4">
+    <!-- Top Bar -->
+    <div class="flex items-center justify-between mb-3 px-2">
       <div class="flex items-center gap-x-3">
-        <div class="w-9 h-9 rounded-2xl bg-gradient-to-br from-sky-400 to-indigo-500 flex items-center justify-center">
-          <i class="fa-solid fa-atom text-[#0a0a0f]"></i>
+        <div class="flex items-center gap-x-2">
+          <div class="w-8 h-8 rounded-2xl bg-gradient-to-br from-sky-400 to-indigo-500 flex items-center justify-center">
+            <i class="fa-solid fa-atom text-[#0a0a0f]"></i>
+          </div>
+          <span class="font-display text-2xl tracking-tighter">MiniSimmy3</span>
         </div>
-        <span class="font-display text-3xl tracking-tighter">MiniSimmy3</span>
-        <span class="text-xs px-2 py-0.5 bg-sky-500/20 text-sky-400 rounded-full">v0.1 - Modular</span>
+        <span class="text-xs px-2.5 py-0.5 bg-sky-500/20 text-sky-400 rounded-full font-mono">v0.4</span>
       </div>
-      <div>
-        <a href="../index.html" class="text-sm hover:text-white">Back to Main Site</a>
+
+      <!-- Stats -->
+      <div class="flex items-center gap-x-4 text-sm">
+        <div class="flex items-center gap-x-1.5">
+          <span class="text-white/50">Pop</span>
+          <span id="stat-pop" class="font-mono font-semibold text-emerald-400">16</span>
+        </div>
+        <div class="flex items-center gap-x-1.5">
+          <span class="text-white/50">Time</span>
+          <span id="stat-time" class="font-mono font-semibold">00:00</span>
+        </div>
+      </div>
+
+      <!-- Speed Controls -->
+      <div class="flex items-center gap-x-1 bg-[#121218] border border-white/10 rounded-2xl p-1 text-xs">
+        <button onclick="setTimeScale(0.5)" class="px-3 py-1 rounded-xl hover:bg-white/10">0.5×</button>
+        <button onclick="setTimeScale(1)" class="px-3 py-1 rounded-xl bg-emerald-500 text-[#0a0a0f] font-semibold">1×</button>
+        <button onclick="setTimeScale(2)" class="px-3 py-1 rounded-xl hover:bg-white/10">2×</button>
+        <button onclick="togglePause()" id="pause-btn" class="px-3 py-1 rounded-xl hover:bg-white/10 flex items-center gap-x-1.5">
+          <i class="fa-solid fa-pause text-xs"></i>
+          <span id="pause-text">Pause</span>
+        </button>
       </div>
     </div>
 
-    <!-- Canvas Container -->
+    <!-- Canvas -->
     <div id="canvas-container" class="mx-auto w-[820px] rounded-3xl border border-white/10 overflow-hidden shadow-2xl"></div>
 
-    <!-- Inspector / Sidebar will be added here later -->
+    <!-- Simple Inspector -->
+    <div id="inspector" class="hidden mt-3 mx-auto w-[820px] bg-[#121218] border border-white/10 rounded-2xl p-4">
+      <div class="flex justify-between items-start">
+        <div>
+          <div id="inspect-name" class="font-semibold text-emerald-400 text-lg"></div>
+          <div id="inspect-info" class="text-xs text-white/60 mt-0.5"></div>
+        </div>
+        <button onclick="deselectCreature()" class="text-white/50 hover:text-white">Close</button>
+      </div>
+    </div>
   </div>
 
-  <!-- Modular Scripts -->
   <script src="js/utils.js"></script>
   <script src="js/creatures.js"></script>
-  <script src="js/economy.js"></script>
-  <script src="js/ui.js"></script>
   <script src="js/core.js"></script>
 </body>
 </html>

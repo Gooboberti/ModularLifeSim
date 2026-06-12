@@ -1,4 +1,4 @@
-// MiniSimmy3 - Core Game Loop (with Pheromones)
+// MiniSimmy3 - Core + Basic UI
 
 let creatures = [];
 let vortexParticles = [];
@@ -8,6 +8,7 @@ let timeScale = 1;
 let paused = false;
 let simTime = 0;
 let isDay = true;
+let selectedCreature = null;
 
 let greenZone = { x: 200, y: 290, baseR: 105, food: 420 };
 let blueZone  = { x: 620, y: 290, baseR: 105, food: 420 };
@@ -15,6 +16,7 @@ let blueZone  = { x: 620, y: 290, baseR: 105, food: 420 };
 function setup() {
   let canvas = createCanvas(820, 580);
   canvas.parent('canvas-container');
+  canvas.mousePressed(handleMousePress);
 
   centerX = width / 2;
   centerY = height / 2;
@@ -22,7 +24,6 @@ function setup() {
   for (let i = 0; i < 16; i++) {
     creatures.push(new Creature(random(width), random(height)));
   }
-
   for (let i = 0; i < 160; i++) {
     vortexParticles.push(new VortexParticle());
   }
@@ -35,60 +36,106 @@ function draw() {
 
   if (frameCount % 550 === 0) isDay = !isDay;
 
-  // Draw food zones
+  // Draw zones
   fill(16, 185, 129, 50);
   circle(greenZone.x, greenZone.y, greenZone.baseR * 2);
   fill(56, 189, 248, 50);
   circle(blueZone.x, blueZone.y, blueZone.baseR * 2);
 
-  // Update & draw pheromones
+  // Pheromones
   for (let i = pheromones.length - 1; i >= 0; i--) {
     let p = pheromones[i];
-    p.life -= timeScale;
-    if (p.life <= 0) {
-      pheromones.splice(i, 1);
-      continue;
-    }
-    fill(p.isGreen ? '#34d399' : '#38bdf8', map(p.life, 0, 220, 30, 140));
-    noStroke();
-    circle(p.x, p.y, 4);
+    p.life -= timeScale * 0.9;
+    if (p.life <= 0) { pheromones.splice(i, 1); continue; }
+    fill(p.isGreen ? '#34d399' : '#38bdf8', map(p.life, 0, 200, 20, 130));
+    circle(p.x, p.y, 3.5);
   }
 
-  // Update vortex particles
+  // Vortex
   for (let p of vortexParticles) {
     p.update(1, 1.15);
     p.show();
   }
 
-  // Update creatures
+  // Creatures
   for (let i = creatures.length - 1; i >= 0; i--) {
     let c = creatures[i];
     c.update(isDay, 1, 1.15, timeScale, pheromones);
 
     if (c.energy <= 0) {
       creatures.splice(i, 1);
+      if (selectedCreature === c) selectedCreature = null;
       continue;
     }
 
-    // Reproduction
-    if (c.energy > 72 && c.reproCooldown <= 0 && random() < 0.0035 * timeScale) {
-      let child = c.reproduce();
-      creatures.push(child);
-      c.energy -= 16;
-      c.reproCooldown = 160;
+    if (c.energy > 70 && c.reproCooldown <= 0 && random() < 0.0032 * timeScale) {
+      creatures.push(c.reproduce());
+      c.energy -= 15;
+      c.reproCooldown = 150;
     }
   }
 
-  // Draw creatures (on top)
-  for (let c of creatures) {
-    c.show();
+  for (let c of creatures) c.show();
+
+  // Highlight selected
+  if (selectedCreature) {
+    stroke(255, 255, 255, 180);
+    strokeWeight(2);
+    noFill();
+    circle(selectedCreature.x, selectedCreature.y, 18);
   }
 
-  // UI
-  fill(255);
-  textSize(13);
-  text(`MiniSimmy3 | Pop: ${creatures.length}`, 20, 25);
-  text(`Time: ${floor(simTime/60)}:${nf(floor(simTime%60),2)}`, 20, 45);
-
+  updateUI();
   simTime += timeScale;
+}
+
+function handleMousePress() {
+  for (let c of creatures) {
+    if (dist(mouseX, mouseY, c.x, c.y) < 14) {
+      selectedCreature = c;
+      updateInspector();
+      return;
+    }
+  }
+  selectedCreature = null;
+  document.getElementById('inspector').classList.add('hidden');
+}
+
+function updateUI() {
+  const popEl = document.getElementById('stat-pop');
+  const timeEl = document.getElementById('stat-time');
+  if (popEl) popEl.innerText = creatures.length;
+  if (timeEl) timeEl.innerText = `${floor(simTime/60)}:${nf(floor(simTime%60),2)}`;
+}
+
+function updateInspector() {
+  if (!selectedCreature) return;
+  const panel = document.getElementById('inspector');
+  panel.classList.remove('hidden');
+
+  document.getElementById('inspect-name').innerText = selectedCreature.name;
+  document.getElementById('inspect-info').innerText =
+    `Gen ${selectedCreature.generation} • ${selectedCreature.modules.length} modules • Energy: ${floor(selectedCreature.energy)}`;
+}
+
+function deselectCreature() {
+  selectedCreature = null;
+  document.getElementById('inspector').classList.add('hidden');
+}
+
+function setTimeScale(scale) {
+  timeScale = scale;
+}
+
+function togglePause() {
+  paused = !paused;
+  const btn = document.getElementById('pause-btn');
+  const text = document.getElementById('pause-text');
+  if (paused) {
+    btn.classList.add('bg-red-500/80');
+    text.innerText = 'Resume';
+  } else {
+    btn.classList.remove('bg-red-500/80');
+    text.innerText = 'Pause';
+  }
 }

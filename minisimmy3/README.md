@@ -1,15 +1,13 @@
 # MiniSimmy3
 
-## Progress Log (Small Chunks)
+## Progress (Small Chunks)
 
-- [x] Modular folder structure + clean loading
-- [x] Creature class extracted
-- [x] Basic game loop
-- [x] Vortex particles + forces
-- [x] Green/Blue food zones
-- [x] Energy + death system
-- [x] Basic reproduction
-- [x] Pheromone system + social attraction
-- [x] Improved creature movement & module visuals
+- [x] Modular structure
+- [x] Creature class
+- [x] Vortex + Food zones
+- [x] Energy, death, reproduction
+- [x] Pheromones + social behavior
+- [x] Basic top bar UI (Pop + Time + Speed + Pause)
+- [x] Click to select creature + simple inspector
 
-Next small chunks: More advanced social behavior, start rebuilding UI (top bar + inspector)
+Next: Expand inspector, add more module effects, start Gene Vault migration.
