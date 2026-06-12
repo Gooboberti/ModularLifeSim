@@ -13,6 +13,7 @@
     .chunk-done { background: rgba(16, 185, 129, 0.08); border-left: 3px solid #10b981; }
     .chunk-todo { background: rgba(251, 191, 36, 0.06); border-left: 3px solid #fbbf24; }
     .phase { background: rgba(103, 232, 249, 0.08); border-left-color: #67e8f9; }
+    .confidence-bar { height: 6px; background: linear-gradient(to right, #10b981, #fbbf24); transition: width 0.4s ease; }
   </style>
 </head>
 <body class="sci-fi-bg text-slate-200">
@@ -33,25 +34,63 @@
       </a>
     </div>
 
-    <div class="max-w-4xl">
+    <div class="max-w-5xl">
       <div class="mb-8">
         <div class="inline-flex items-center gap-x-2 px-4 py-1.5 rounded-3xl bg-white/5 border border-white/10 text-xs tracking-[2px] font-mono mb-3">
-          FINAL PHASE
+          FINAL PHASE • CONFIDENCE TRACKING ENABLED
         </div>
         <h1 class="font-display text-6xl tracking-tighter font-semibold leading-none">Rebuild Roadmap</h1>
-        <p class="mt-3 max-w-md text-lg text-white/60">Goal: Reach full parity with the original MiniSimmy2 (mechanics + appearance + design) + a reliable egg saving system. No major visual changes — only refinement toward the original look.</p>
+        <p class="mt-3 max-w-2xl text-lg text-white/60">Goal: Reach <strong>99.9% parity</strong> with the original MiniSimmy2 (mechanics + appearance + design) while maintaining clean, legible code and a reliable saving system.</p>
+      </div>
+
+      <!-- Confidence Tracking -->
+      <div class="mb-10 p-6 bg-white/5 border border-white/10 rounded-3xl">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <div class="font-semibold text-xl flex items-center gap-x-2">
+              <i class="fa-solid fa-chart-line text-emerald-400"></i>
+              <span>Confidence Tracking</span>
+            </div>
+            <div class="text-sm text-white/60">Projected improvement toward 99.9% user satisfaction</div>
+          </div>
+          <div class="text-right">
+            <div class="text-4xl font-semibold tabular-nums text-emerald-400">68</div>
+            <div class="text-xs text-white/50 -mt-1">Current Confidence</div>
+          </div>
+        </div>
+
+        <!-- Simple ASCII-style confidence progression -->
+        <div class="mt-4">
+          <div class="flex justify-between text-xs text-white/50 mb-1">
+            <div>Start</div>
+            <div class="text-emerald-400 font-medium">Current: 68%</div>
+            <div>Target: 99.9%</div>
+          </div>
+          <div class="w-full bg-white/10 rounded-full h-3 overflow-hidden">
+            <div class="confidence-bar w-[68%] rounded-full" style="width: 68%"></div>
+          </div>
+          <div class="flex justify-between text-[10px] text-white/40 mt-1">
+            <div>Chunk 1</div>
+            <div class="text-center">Chunk 49</div>
+            <div class="text-right">Final Polish</div>
+          </div>
+        </div>
+
+        <div class="mt-4 text-xs text-white/60">
+          Confidence increases with: Code legibility, Saving system reliability, Visual/mechanical parity, and successful testing.
+        </div>
       </div>
 
       <!-- Current Status -->
       <div class="mb-8 p-5 bg-white/5 border border-white/10 rounded-3xl">
-        <div class="font-semibold text-emerald-400 mb-2">Current Status (as of Chunk 30)</div>
-        <div class="text-sm text-white/80 space-y-1">
-          <div>• Core simulation, modules, predators, pheromones: Functional</div>
-          <div>• Gene Vault + Inventory + Extract to Egg: Functional</div>
-          <div>• Economy (HRP + Aetherium + Furnace): Functional</div>
-          <div>• Prestige: Functional + preserves Gene Vault</div>
-          <div>• Saving System: Foundation complete + auto-save hooked into key actions</div>
-          <div>• Visual alignment: Significant progress (no major style changes planned)</div>
+        <div class="font-semibold text-emerald-400 mb-2">Current Status (Chunk 49)</div>
+        <div class="text-sm text-white/80 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-1">
+          <div>• Saving System: Strong (Eggs + HRP + Aetherium + Gene Vault)</div>
+          <div>• Game Guide: Comprehensive reference</div>
+          <div>• Code Quality: Good comments &amp; structure</div>
+          <div>• Visual Alignment: Ongoing refinement (no major redesigns)</div>
+          <div>• Mechanical Parity: ~70% (core systems working)</div>
+          <div>• Confidence: <span class="font-semibold text-emerald-400">68/100</span></div>
         </div>
       </div>
 
@@ -59,66 +98,32 @@
       <div class="mb-10">
         <div class="section-header mb-4">
           <h2 class="font-semibold text-xl flex items-center gap-x-3">
-            <span class="text-sky-400">Final Parity Plan</span>
+            <span class="text-sky-400">Final Parity Plan (Focus: Polish, not New Features)</span>
           </h2>
         </div>
 
         <div class="space-y-6">
-          <!-- Phase 1: Saving System Completion -->
           <div class="phase px-5 py-4 rounded-2xl border border-white/10">
-            <div class="font-semibold text-sky-400 mb-2">Phase 1: Saving System Completion (Priority)</div>
-            <div class="text-sm text-white/80 space-y-1">
-              <div>• Make auto-save fully reliable across all egg actions</div>
-              <div>• Add Delete Egg functionality with confirmation + auto-save</div>
-              <div>• Add clear visual feedback (“Saved”, “Exported”, etc.)</div>
-              <div>• Allow saving more state (basic HRP, Aetherium, Gene Vault on prestige)</div>
-              <div>• Ensure exported JSON is clean and importable into future Ranch game</div>
-            </div>
+            <div class="font-semibold text-sky-400 mb-2">Phase A: Saving System &amp; Code Quality (Current Focus)</div>
+            <div class="text-sm text-white/80">Make saving rock-solid, code highly legible, and well-documented.</div>
           </div>
-
-          <!-- Phase 2: Refinement toward Parity -->
           <div class="phase px-5 py-4 rounded-2xl border border-white/10">
-            <div class="font-semibold text-sky-400 mb-2">Phase 2: Refinement &amp; Polish (No Major Visual Changes)</div>
-            <div class="text-sm text-white/80 space-y-1">
-              <div>• Audit and fix any remaining bugs or inconsistencies</div>
-              <div>• Ensure all mechanics behave identically to original MiniSimmy2</div>
-              <div>• Minor visual tweaks only where needed to match original appearance</div>
-              <div>• Clean up code, improve comments, remove any duplication</div>
-              <div>• Optimize for performance and future extensibility</div>
-            </div>
+            <div class="font-semibold text-sky-400 mb-2">Phase B: Mechanical Parity</div>
+            <div class="text-sm text-white/80">Ensure all core mechanics behave identically (or better) than original.</div>
           </div>
-
-          <!-- Phase 3: Final Readiness -->
           <div class="phase px-5 py-4 rounded-2xl border border-white/10">
-            <div class="font-semibold text-sky-400 mb-2">Phase 3: Final Readiness Check</div>
-            <div class="text-sm text-white/80 space-y-1">
-              <div>• Full mechanical parity confirmed</div>
-              <div>• Visual appearance matches original as closely as possible</div>
-              <div>• Saving system is reliable and user-friendly</div>
-              <div>• Code is clean, well-documented, and ready for future development</div>
-            </div>
+            <div class="font-semibold text-sky-400 mb-2">Phase C: Visual &amp; UI Parity</div>
+            <div class="text-sm text-white/80">Match the original appearance and feel as closely as possible through refinement only.</div>
           </div>
-        </div>
-      </div>
-
-      <!-- Remaining Tasks -->
-      <div>
-        <div class="section-header mb-4">
-          <h2 class="font-semibold text-xl flex items-center gap-x-3">
-            <span class="text-amber-400">Remaining Tasks</span>
-          </h2>
-        </div>
-        <div class="space-y-2 text-sm">
-          <div class="chunk-todo px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-amber-400 w-8">31</div><div class="flex-1">Add Delete Egg + improve saving feedback</div></div>
-          <div class="chunk-todo px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-amber-400 w-8">32</div><div class="flex-1">Expand saving to include more game state (HRP, Aetherium, etc.)</div></div>
-          <div class="chunk-todo px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-amber-400 w-8">33</div><div class="flex-1">Code audit pass + bug fixing toward parity</div></div>
-          <div class="chunk-todo px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-amber-400 w-8">34</div><div class="flex-1">Minor visual refinements only where needed to match original</div></div>
-          <div class="chunk-todo px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-amber-400 w-8">35</div><div class="flex-1">Final readiness check + confirmation of parity</div></div>
+          <div class="phase px-5 py-4 rounded-2xl border border-white/10">
+            <div class="font-semibold text-sky-400 mb-2">Phase D: Final Testing &amp; Polish</div>
+            <div class="text-sm text-white/80">Reach 99.9% confidence through testing and final adjustments.</div>
+          </div>
         </div>
       </div>
 
       <div class="mt-12 pt-8 border-t border-white/10 text-xs text-white/40">
-        Philosophy: Refine toward exact parity. Do not redesign. Keep visuals faithful to the original. Make the saving system reliable and future-proof.
+        Philosophy: Small, safe, high-quality chunks. No feature creep. Focus on making the existing experience feel identical to (or better than) the original while being much cleaner and more maintainable.
       </div>
     </div>
   </div>
