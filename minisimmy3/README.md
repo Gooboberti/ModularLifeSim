@@ -1,22 +1,15 @@
 # MiniSimmy3
 
-**Next-generation modular evolution simulation**
+## Progress Log (Small Chunks)
 
-## Progress (Small Chunks)
-
-- [x] Basic modular folder structure
-- [x] Clean index.html with script loading
+- [x] Modular folder structure + clean loading
 - [x] Creature class extracted
 - [x] Basic game loop
 - [x] Vortex particles + forces
 - [x] Green/Blue food zones
-- [x] Energy system + death
+- [x] Energy + death system
 - [x] Basic reproduction
+- [x] Pheromone system + social attraction
+- [x] Improved creature movement & module visuals
 
-## Next Chunks
-- Improve creature AI and module effects
-- Add pheromones and social behavior
-- Start rebuilding the top bar and inspector
-- Migrate Gene Vault system
-
-Current version is functional but still early stage.
+Next small chunks: More advanced social behavior, start rebuilding UI (top bar + inspector)

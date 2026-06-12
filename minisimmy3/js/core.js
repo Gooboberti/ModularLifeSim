@@ -1,7 +1,8 @@
-// MiniSimmy3 - Core Game Loop (Improved)
+// MiniSimmy3 - Core Game Loop (with Pheromones)
 
 let creatures = [];
 let vortexParticles = [];
+let pheromones = [];
 let centerX, centerY;
 let timeScale = 1;
 let paused = false;
@@ -18,13 +19,11 @@ function setup() {
   centerX = width / 2;
   centerY = height / 2;
 
-  // Spawn initial creatures
-  for (let i = 0; i < 14; i++) {
+  for (let i = 0; i < 16; i++) {
     creatures.push(new Creature(random(width), random(height)));
   }
 
-  // Spawn vortex particles
-  for (let i = 0; i < 140; i++) {
+  for (let i = 0; i < 160; i++) {
     vortexParticles.push(new VortexParticle());
   }
 }
@@ -34,97 +33,62 @@ function draw() {
 
   background(12, 14, 22);
 
-  // Simple day/night cycle
-  if (frameCount % 550 === 0) {
-    isDay = !isDay;
-  }
+  if (frameCount % 550 === 0) isDay = !isDay;
 
   // Draw food zones
-  fill(16, 185, 129, 55);
+  fill(16, 185, 129, 50);
   circle(greenZone.x, greenZone.y, greenZone.baseR * 2);
-  fill(56, 189, 248, 55);
+  fill(56, 189, 248, 50);
   circle(blueZone.x, blueZone.y, blueZone.baseR * 2);
+
+  // Update & draw pheromones
+  for (let i = pheromones.length - 1; i >= 0; i--) {
+    let p = pheromones[i];
+    p.life -= timeScale;
+    if (p.life <= 0) {
+      pheromones.splice(i, 1);
+      continue;
+    }
+    fill(p.isGreen ? '#34d399' : '#38bdf8', map(p.life, 0, 220, 30, 140));
+    noStroke();
+    circle(p.x, p.y, 4);
+  }
 
   // Update vortex particles
   for (let p of vortexParticles) {
-    p.update(1, 1.2);
+    p.update(1, 1.15);
     p.show();
   }
 
   // Update creatures
   for (let i = creatures.length - 1; i >= 0; i--) {
     let c = creatures[i];
-    c.update(isDay, 1, 1.2, timeScale);
+    c.update(isDay, 1, 1.15, timeScale, pheromones);
 
-    // Death
     if (c.energy <= 0) {
-      // Release some energy orbs (simplified)
       creatures.splice(i, 1);
       continue;
     }
 
-    // Basic reproduction
-    if (c.energy > 75 && random() < 0.004 * timeScale && c.reproCooldown <= 0) {
+    // Reproduction
+    if (c.energy > 72 && c.reproCooldown <= 0 && random() < 0.0035 * timeScale) {
       let child = c.reproduce();
       creatures.push(child);
-      c.energy -= 18;
-      c.reproCooldown = 180;
+      c.energy -= 16;
+      c.reproCooldown = 160;
     }
   }
 
-  // Draw creatures
+  // Draw creatures (on top)
   for (let c of creatures) {
     c.show();
   }
 
-  // Simple UI
+  // UI
   fill(255);
   textSize(13);
-  text(`MiniSimmy3 | Creatures: ${creatures.length}`, 20, 25);
-  text(`Time: ${floor(simTime / 60)}:${nf(floor(simTime % 60), 2)}`, 20, 45);
+  text(`MiniSimmy3 | Pop: ${creatures.length}`, 20, 25);
+  text(`Time: ${floor(simTime/60)}:${nf(floor(simTime%60),2)}`, 20, 45);
 
   simTime += timeScale;
-}
-
-// Simple Vortex Particle class (temporary, can be moved later)
-class VortexParticle {
-  constructor() {
-    let angle = random(TWO_PI);
-    let d = random(380, 520);
-    this.x = centerX + cos(angle) * d;
-    this.y = centerY + sin(angle) * d;
-    this.size = random(1.8, 2.8);
-  }
-
-  update(vortexDir, vortexStrength) {
-    let dx = this.x - centerX;
-    let dy = this.y - centerY;
-    let distToCenter = sqrt(dx * dx + dy * dy) || 1;
-
-    if (distToCenter < 5) {
-      // Respawn at edge
-      let angle = random(TWO_PI);
-      let d = random(380, 520);
-      this.x = centerX + cos(angle) * d;
-      this.y = centerY + sin(angle) * d;
-      return;
-    }
-
-    let tangentX = -dy;
-    let tangentY = dx;
-    let len = sqrt(tangentX * tangentX + tangentY * tangentY) || 1;
-
-    this.x += (tangentX / len) * 1.1 * vortexStrength * vortexDir;
-    this.y += (tangentY / len) * 1.1 * vortexStrength * vortexDir;
-
-    let pull = 0.75 * vortexStrength;
-    this.x += (centerX - this.x) * pull / (distToCenter + 1);
-    this.y += (centerY - this.y) * pull / (distToCenter + 1);
-  }
-
-  show() {
-    fill(255, 255, 255, 160);
-    noStroke();
-    circle(this.x, this.y, this.size);
-  }
 }
