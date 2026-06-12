@@ -1,25 +1,14 @@
-// ==================== LOADING + UI REFRESH (Chunk 38) ====================
+// ==================== MANUAL SAVE (Chunk 39) ====================
 
-function loadProgress() {
-  try {
-    const saved = localStorage.getItem('minisimmy3_progress');
-    if (saved) {
-      const data = JSON.parse(saved);
-      if (data.eggs) eggs = data.eggs;
-      if (data.highRollerPoints) highRollerPoints = data.highRollerPoints;
-      if (data.aetheriumCrystals) aetheriumCrystals = data.aetheriumCrystals;
-      if (data.geneVaultSlots) geneVaultSlots = data.geneVaultSlots;
-
-      // Refresh top bar stats after loading
-      setTimeout(() => {
-        updateUI();
-        const scoreEl = document.getElementById('stat-score');
-        if (scoreEl) scoreEl.innerText = highRollerPoints.toLocaleString();
-        const crystalsEl = document.getElementById('stat-crystals');
-        if (crystalsEl) crystalsEl.innerText = aetheriumCrystals;
-      }, 100);
-    }
-  } catch (e) {
-    // ignore corrupt data
-  }
+function manualSaveProgress() {
+  saveProgress();
+  showSaveToast('Progress saved manually');
 }
+
+// ==================== SAVING SYSTEM NOTES ====================
+// - saveProgress() saves: eggs, highRollerPoints, aetheriumCrystals, geneVaultSlots
+// - autoSaveEggs() is called after important egg actions (extract, move, delete, prestige)
+// - loadProgress() runs on setup() and refreshes the top bar
+// - All saving uses localStorage under the key 'minisimmy3_progress'
+// - Designed to be easily extended later for full game state or Ranch game export
+// =============================================================
