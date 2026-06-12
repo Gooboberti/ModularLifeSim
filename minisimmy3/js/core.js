@@ -1,14 +1,32 @@
-// ==================== MANUAL SAVE (Chunk 39) ====================
+// ==================== LAST SAVED DISPLAY (Chunk 40) ====================
 
+function updateLastSavedDisplay() {
+  const el = document.getElementById('last-saved-info');
+  if (!el) return;
+
+  try {
+    const saved = localStorage.getItem('minisimmy3_progress');
+    if (saved) {
+      const data = JSON.parse(saved);
+      if (data.lastSaved) {
+        const date = new Date(data.lastSaved);
+        const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        el.innerHTML = `Last saved: ${timeStr}`;
+      }
+    } else {
+      el.innerHTML = 'No saved progress yet';
+    }
+  } catch (e) {
+    el.innerHTML = '';
+  }
+}
+
+// Call this when opening the Game Guide
+// We can hook it into showGameGuide() later if needed.
+
+// For now, we update it when the manual save button is used
 function manualSaveProgress() {
   saveProgress();
   showSaveToast('Progress saved manually');
+  updateLastSavedDisplay();
 }
-
-// ==================== SAVING SYSTEM NOTES ====================
-// - saveProgress() saves: eggs, highRollerPoints, aetheriumCrystals, geneVaultSlots
-// - autoSaveEggs() is called after important egg actions (extract, move, delete, prestige)
-// - loadProgress() runs on setup() and refreshes the top bar
-// - All saving uses localStorage under the key 'minisimmy3_progress'
-// - Designed to be easily extended later for full game state or Ranch game export
-// =============================================================
