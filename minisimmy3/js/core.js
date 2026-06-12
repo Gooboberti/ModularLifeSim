@@ -1,20 +1,19 @@
-// ==================== GLOBAL VARIABLES ====================
+// ==================== MAIN SIMULATION FLOW ====================
 // 
-// Core simulation state:
-// - creatures: Array of all active Creature objects
-// - vortexParticles: Visual particles in the central vortex
-// - pheromones: Chemical signals released by Communicator creatures
+// The simulation runs in a continuous loop:
 // 
-// Progression & Economy:
-// - highRollerPoints: Main score currency
-// - aetheriumCrystals: Prestige currency (earned from HRP)
-// - burningCrystals / furnaceEndTime: Furnace state
+// 1. setup()       - Initializes canvas, loads saved progress, creates initial creatures
+// 2. draw()        - Main loop called every frame:
+//    - Updates day/night cycle
+//    - Updates pheromones, vortex particles, and creatures
+//    - Handles reproduction and death
+//    - Draws everything
+//    - Updates UI and stats
+//    - Advances simTime
 // 
-// Player Systems:
-// - eggs: Inventory of extracted creatures
-// - geneVaultSlots: Preserved creatures for long-term progression
-// 
-// Simulation State:
-// - paused, timeScale, simTime, isDay
-// - selectedCreature: Currently inspected creature
+// Key supporting functions:
+// - updateUI()              : Refreshes top bar and egg badge
+// - updateHighRollerPoints(): Calculates and updates score (includes Furnace multiplier)
+// - updateFurnace()         : Manages Furnace timer and UI
+// - updateInspector()       : Refreshes the creature inspector panel
 // ============================================================
