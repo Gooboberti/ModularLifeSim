@@ -1,19 +1,10 @@
-// ==================== MAIN SIMULATION FLOW ====================
+// ==================== INTERACTION ====================
 // 
-// The simulation runs in a continuous loop:
+// handleMousePress() is called when the user clicks on the canvas.
+// It is used to select creatures for inspection.
 // 
-// 1. setup()       - Initializes canvas, loads saved progress, creates initial creatures
-// 2. draw()        - Main loop called every frame:
-//    - Updates day/night cycle
-//    - Updates pheromones, vortex particles, and creatures
-//    - Handles reproduction and death
-//    - Draws everything
-//    - Updates UI and stats
-//    - Advances simTime
-// 
-// Key supporting functions:
-// - updateUI()              : Refreshes top bar and egg badge
-// - updateHighRollerPoints(): Calculates and updates score (includes Furnace multiplier)
-// - updateFurnace()         : Manages Furnace timer and UI
-// - updateInspector()       : Refreshes the creature inspector panel
+// Future expansions could include:
+// - Right-click context menus
+// - Drag to move creatures (if enabled)
+// - Keyboard shortcuts
 // ============================================================
