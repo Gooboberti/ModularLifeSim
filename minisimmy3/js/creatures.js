@@ -1,4 +1,4 @@
-// MiniSimmy3 - Creature Class with Predator System
+// MiniSimmy3 - Creature Class with More Module Effects (Chunk 21)
 
 class Creature {
   constructor(x, y, parentModules = null, generation = 1, parentTraits = null) {
@@ -53,12 +53,6 @@ class Creature {
     return new Creature(this.x+random(-6,6), this.y+random(-6,6), this.modules.map(m=>({...m})), this.generation+1, this.traits);
   }
 
-  becomePredator() {
-    this.isPredator = true;
-    this.energy = max(this.energy, 65);
-    this.role = 'Predator';
-  }
-
   update(isDay, vortexDir, vortexStrength, timeScale=1, pheromones=[]) {
     if(this.reproCooldown>0) this.reproCooldown--;
 
@@ -106,17 +100,15 @@ class Creature {
 
     // Predator behavior
     if (this.isPredator) {
-      this.energy -= 0.12 * timeScale; // Predators burn more energy
-      // Target low-module creatures
+      this.energy -= 0.12 * timeScale;
       for (let other of creatures) {
         if (other !== this && !other.isPredator && other.modules.length <= 1) {
           let od = dist(this.x, this.y, other.x, other.y);
           if (od < 55) {
-            // Attack
             other.energy -= 18;
             this.energy += 12;
             if (other.energy <= 0 && random() < 0.6) {
-              this.becomePredator(); // Spread predator status
+              this.becomePredator();
             }
           }
         }
