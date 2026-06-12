@@ -1,4 +1,4 @@
-// MiniSimmy3 - Core + High Roller Points Economy (Chunk 12)
+// MiniSimmy3 - Core + Prestige System (Chunk 13)
 
 let creatures = [];
 let vortexParticles = [];
@@ -89,19 +89,50 @@ function draw() {
   simTime += timeScale;
 }
 
+function prestige() {
+  if (!confirm('Prestige now? This will reset the current simulation but keep your Gene Vault.')) {
+    return;
+  }
+
+  // Reset simulation
+  creatures = [];
+  pheromones = [];
+  vortexParticles = [];
+  simTime = 0;
+  highRollerPoints = 0;
+  selectedCreature = null;
+  document.getElementById('inspector').classList.add('hidden');
+
+  // Respawn vortex particles
+  for (let i = 0; i < 170; i++) {
+    vortexParticles.push(new VortexParticle());
+  }
+
+  // Respawn starting creatures
+  for (let i = 0; i < 16; i++) {
+    creatures.push(new Creature(random(width), random(height)));
+  }
+
+  // Give a small starting bonus for prestige
+  highRollerPoints = 25000;
+
+  updateUI();
+  const scoreEl = document.getElementById('stat-score');
+  if (scoreEl) scoreEl.innerText = highRollerPoints.toLocaleString();
+
+  addFloatingText(width/2, height/2, "Prestiged! Gene Vault preserved.", '#fbbf24');
+}
+
 function updateHighRollerPoints() {
   const now = Date.now();
   if (now - lastScoreUpdate < 400) return;
   lastScoreUpdate = now;
 
   let score = Math.floor(simTime / 8);
-
-  // Population bonus
   const pop = creatures.length;
   if (pop > 25) score += (pop - 25) * 3;
   else if (pop < 10) score += (10 - pop) * 2;
 
-  // Predator bonus
   let predators = 0;
   for (let c of creatures) if (c.isPredator) predators++;
   score += predators * 28;
@@ -119,4 +150,4 @@ function updateUI() {
   if (timeEl) timeEl.innerText = `${floor(simTime/60)}:${nf(floor(simTime%60),2)}`;
 }
 
-// ... (rest of functions: handleMousePress, updateInspector, Gene Vault functions, etc. remain from previous chunks)
+// Gene Vault and other functions remain from previous chunks...
