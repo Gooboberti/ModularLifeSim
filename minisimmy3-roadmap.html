@@ -7,13 +7,9 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
     body { font-family: 'Inter', system_ui, sans-serif; }
     .font-display { font-family: 'Space Grotesk', 'Inter', sans-serif; }
     .sci-fi-bg { background: radial-gradient(circle at center, #0a0f1a 0%, #05070f 100%); }
-    .neon-text { text-shadow: 0 0 10px rgb(103 232 249 / 0.5); }
-    .section-header { position: relative; }
-    .section-header:after { content: ''; position: absolute; bottom: -4px; left: 0; width: 60px; height: 2px; background: linear-gradient(to right, #22d3ee, transparent); }
     .chunk-done { background: rgba(16, 185, 129, 0.08); border-left: 3px solid #10b981; }
     .chunk-todo { background: rgba(251, 191, 36, 0.06); border-left: 3px solid #fbbf24; }
   </style>
@@ -42,7 +38,7 @@
           PROJECT STATUS
         </div>
         <h1 class="font-display text-6xl tracking-tighter font-semibold leading-none">Rebuild Roadmap</h1>
-        <p class="mt-3 max-w-md text-lg text-white/60">Converting the original monolithic MiniSimmy2 into a clean, maintainable modular architecture while achieving 100% feature parity.</p>
+        <p class="mt-3 max-w-md text-lg text-white/60">Converting the original monolithic MiniSimmy2 into a clean, maintainable modular architecture while achieving 100% feature parity (mechanics + appearance + design).</p>
       </div>
 
       <!-- Progress Overview -->
@@ -52,7 +48,7 @@
             <i class="fa-solid fa-check-circle"></i>
             <span>COMPLETED</span>
           </div>
-          <div class="text-5xl font-semibold tabular-nums mt-1">13</div>
+          <div class="text-5xl font-semibold tabular-nums mt-1">24</div>
           <div class="text-white/50 text-sm">Chunks</div>
         </div>
         <div class="bg-white/5 border border-white/10 rounded-3xl p-5">
@@ -60,8 +56,8 @@
             <i class="fa-solid fa-tasks"></i>
             <span>IN PROGRESS</span>
           </div>
-          <div class="text-5xl font-semibold tabular-nums mt-1">~45%</div>
-          <div class="text-white/50 text-sm">of original features</div>
+          <div class="text-5xl font-semibold tabular-nums mt-1">~55%</div>
+          <div class="text-white/50 text-sm">of original features + design</div>
         </div>
         <div class="bg-white/5 border border-white/10 rounded-3xl p-5">
           <div class="text-sky-400 text-sm font-medium flex items-center gap-x-2">
@@ -69,7 +65,7 @@
             <span>TARGET</span>
           </div>
           <div class="text-5xl font-semibold tabular-nums mt-1">Full</div>
-          <div class="text-white/50 text-sm">Parity with MiniSimmy2</div>
+          <div class="text-white/50 text-sm">Parity (mechanics + appearance)</div>
         </div>
       </div>
 
@@ -77,23 +73,24 @@
       <div class="mb-10">
         <div class="section-header mb-4">
           <h2 class="font-semibold text-xl flex items-center gap-x-3">
-            <span class="text-emerald-400">Completed Chunks</span>
+            <span class="text-emerald-400">Completed Chunks (24)</span>
           </h2>
         </div>
         <div class="space-y-2 text-sm">
-          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">01</div><div class="flex-1">Basic modular folder structure + clean index.html</div></div>
-          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">02</div><div class="flex-1">Creature class + basic game loop</div></div>
-          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">03</div><div class="flex-1">Vortex, food zones, energy, death, reproduction</div></div>
-          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">04</div><div class="flex-1">Pheromone system + social behavior</div></div>
-          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">05</div><div class="flex-1">Top bar UI + click-to-select</div></div>
-          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">06</div><div class="flex-1">Expanded Creature Inspector</div></div>
-          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">07</div><div class="flex-1">Module effects (Harvester, Resistant, Mover/Explorer, Communicator)</div></div>
-          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">08</div><div class="flex-1">Predator system</div></div>
-          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">09</div><div class="flex-1">Gene Vault foundation (button + modal + 2 unlocked slots)</div></div>
-          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">10</div><div class="flex-1">Gene Vault - Place selected creature into slot</div></div>
-          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">11</div><div class="flex-1">Enhanced Gene Vault (View details + Remove egg)</div></div>
-          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">12</div><div class="flex-1">High Roller Points economy + live score display</div></div>
-          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">13</div><div class="flex-1">Prestige button + reset while preserving Gene Vault</div></div>
+          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">01-09</div><div class="flex-1">Core simulation, modules, predators, pheromones, Gene Vault foundation, design base</div></div>
+          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">10</div><div class="flex-1">Gene Vault - Place creature into slot</div></div>
+          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">11</div><div class="flex-1">Enhanced Gene Vault (View + Remove)</div></div>
+          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">12</div><div class="flex-1">High Roller Points economy + live score</div></div>
+          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">13</div><div class="flex-1">Prestige button + reset (preserves Gene Vault)</div></div>
+          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">14</div><div class="flex-1">Inventory system for eggs</div></div>
+          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">15</div><div class="flex-1">Extract to Egg button in Inspector</div></div>
+          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">16</div><div class="flex-1">Aetherium Crystals + Prestige conversion</div></div>
+          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">17</div><div class="flex-1">Visible Aetherium display in top bar</div></div>
+          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">18</div><div class="flex-1">Furnace system (burn crystals for x100 multiplier)</div></div>
+          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">19</div><div class="flex-1">Improved Furnace with live countdown</div></div>
+          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">20</div><div class="flex-1">Improved Prestige conversion rates &amp; feedback</div></div>
+          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">21</div><div class="flex-1">More module effects (Sensor, Explorer, etc.)</div></div>
+          <div class="chunk-done px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-emerald-400 w-8">22-23</div><div class="flex-1">Visual &amp; design alignment (top bar, inspector, modals) toward original look</div></div>
         </div>
       </div>
 
@@ -105,14 +102,13 @@
           </h2>
         </div>
         <div class="space-y-2 text-sm">
-          <div class="chunk-todo px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-amber-400 w-8">14</div><div class="flex-1">Inventory system for eggs (separate from vault)</div></div>
-          <div class="chunk-todo px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-amber-400 w-8">15</div><div class="flex-1">Aetherium Crystals / Dust + Furnace system</div></div>
-          <div class="chunk-todo px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-amber-400 w-8">16</div><div class="flex-1">Full Prestige conversion (HRP → Dust, warnings, furnace interaction)</div></div>
-          <div class="chunk-todo px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-amber-400 w-8">17</div><div class="flex-1">Sensor module effects + advanced behaviors</div></div>
-          <div class="chunk-todo px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-amber-400 w-8">18</div><div class="flex-1">All remaining modals (Extract Egg, Top 10, Legend, Analytics, etc.)</div></div>
-          <div class="chunk-todo px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-amber-400 w-8">19</div><div class="flex-1">Hazard systems, Energy Walls, Spaceship mode</div></div>
-          <div class="chunk-todo px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-amber-400 w-8">20</div><div class="flex-1">Music reactivity system</div></div>
-          <div class="chunk-todo px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-amber-400 w-8">21</div><div class="flex-1">Full visual, audio &amp; mechanical parity + final polish</div></div>
+          <div class="chunk-todo px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-amber-400 w-8">24</div><div class="flex-1">Continue visual/design alignment (canvas, creatures, full UI parity)</div></div>
+          <div class="chunk-todo px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-amber-400 w-8">25</div><div class="flex-1">Full Sensor module effects + advanced behaviors</div></div>
+          <div class="chunk-todo px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-amber-400 w-8">26</div><div class="flex-1">All remaining modals (Extract Egg details, Top 10, Legend, Analytics, Cheats, etc.)</div></div>
+          <div class="chunk-todo px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-amber-400 w-8">27</div><div class="flex-1">Hazard systems, Energy Walls, Spaceship mode</div></div>
+          <div class="chunk-todo px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-amber-400 w-8">28</div><div class="flex-1">Music reactivity system</div></div>
+          <div class="chunk-todo px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-amber-400 w-8">29</div><div class="flex-1">Final mechanical parity + extensive polish pass</div></div>
+          <div class="chunk-todo px-4 py-3 rounded-2xl flex items-start gap-x-3"><div class="font-mono text-amber-400 w-8">30</div><div class="flex-1">Full visual + design parity with original MiniSimmy2</div></div>
         </div>
       </div>
 
