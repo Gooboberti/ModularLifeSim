@@ -1,43 +1,33 @@
-// ==================== EXPANDED SAVING SYSTEM (Chunk 35) ====================
-// Now saves more game state: Eggs + HRP + Aetherium Crystals
+// ==================== STARTUP + PROGRESS LOADING (Chunk 36) ====================
 
-// Save full progress
-function saveProgress() {
-  try {
-    const progress = {
-      eggs: eggs,
-      highRollerPoints: highRollerPoints,
-      aetheriumCrystals: aetheriumCrystals,
-      lastSaved: Date.now()
-    };
-    localStorage.setItem('minisimmy3_progress', JSON.stringify(progress));
-  } catch (e) {
-    console.warn('[MiniSimmy3] Could not save progress');
+function setup() {
+  let canvas = createCanvas(820, 580);
+  canvas.parent('canvas-container');
+  canvas.mousePressed(handleMousePress);
+
+  centerX = width / 2;
+  centerY = height / 2;
+
+  // Load saved progress (eggs + HRP + Aetherium)
+  if (typeof loadProgress === 'function') {
+    loadProgress();
   }
-}
 
-function autoSaveEggs() {
-  saveProgress(); // Now saves full progress
-}
+  for (let i = 0; i < 18; i++) {
+    creatures.push(new Creature(random(width), random(height)));
+  }
 
-// Load full progress on startup
-function loadProgress() {
-  try {
-    const saved = localStorage.getItem('minisimmy3_progress');
-    if (saved) {
-      const data = JSON.parse(saved);
-      if (data.eggs) eggs = data.eggs;
-      if (data.highRollerPoints) highRollerPoints = data.highRollerPoints;
-      if (data.aetheriumCrystals) aetheriumCrystals = data.aetheriumCrystals;
-      console.log('%c[MiniSimmy3] Loaded saved progress', 'color:#64748b');
+  for (let i = 0; i < 170; i++) {
+    vortexParticles.push(new VortexParticle());
+  }
+
+  // Show loaded progress toast if there was saved data
+  setTimeout(() => {
+    if (eggs.length > 0 || highRollerPoints > 0 || aetheriumCrystals > 0) {
+      showSaveToast('Progress loaded');
     }
-  } catch (e) {
-    console.warn('[MiniSimmy3] Could not load progress');
-  }
+  }, 800);
 }
 
-// Update the prestige function to also save full progress
-// (already calls autoSaveEggs which now calls saveProgress)
-
-// Call loadProgress() early in setup() or at the start of the simulation
-// This ensures HRP and Aetherium persist across sessions.
+// Note: The draw() loop and other core functions remain unchanged.
+// Saving is now fully integrated on both save and load.
