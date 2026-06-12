@@ -1,33 +1,34 @@
-// ==================== STARTUP + PROGRESS LOADING (Chunk 36) ====================
+// ==================== FULL PROGRESS SAVING (Chunk 37) ====================
+// Now also saves Gene Vault slots
 
-function setup() {
-  let canvas = createCanvas(820, 580);
-  canvas.parent('canvas-container');
-  canvas.mousePressed(handleMousePress);
-
-  centerX = width / 2;
-  centerY = height / 2;
-
-  // Load saved progress (eggs + HRP + Aetherium)
-  if (typeof loadProgress === 'function') {
-    loadProgress();
+function saveProgress() {
+  try {
+    const progress = {
+      eggs: eggs,
+      highRollerPoints: highRollerPoints,
+      aetheriumCrystals: aetheriumCrystals,
+      geneVaultSlots: geneVaultSlots,
+      lastSaved: Date.now()
+    };
+    localStorage.setItem('minisimmy3_progress', JSON.stringify(progress));
+  } catch (e) {
+    console.warn('[MiniSimmy3] Could not save full progress');
   }
-
-  for (let i = 0; i < 18; i++) {
-    creatures.push(new Creature(random(width), random(height)));
-  }
-
-  for (let i = 0; i < 170; i++) {
-    vortexParticles.push(new VortexParticle());
-  }
-
-  // Show loaded progress toast if there was saved data
-  setTimeout(() => {
-    if (eggs.length > 0 || highRollerPoints > 0 || aetheriumCrystals > 0) {
-      showSaveToast('Progress loaded');
-    }
-  }, 800);
 }
 
-// Note: The draw() loop and other core functions remain unchanged.
-// Saving is now fully integrated on both save and load.
+function loadProgress() {
+  try {
+    const saved = localStorage.getItem('minisimmy3_progress');
+    if (saved) {
+      const data = JSON.parse(saved);
+      if (data.eggs) eggs = data.eggs;
+      if (data.highRollerPoints) highRollerPoints = data.highRollerPoints;
+      if (data.aetheriumCrystals) aetheriumCrystals = data.aetheriumCrystals;
+      if (data.geneVaultSlots) geneVaultSlots = data.geneVaultSlots;
+    }
+  } catch (e) {
+    // ignore
+  }
+}
+
+// autoSaveEggs already calls saveProgress, so Gene Vault is now saved automatically too.
