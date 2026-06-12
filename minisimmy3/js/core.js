@@ -1,4 +1,4 @@
-// MiniSimmy3 - Core + Aetherium + Improved Prestige (Chunk 16)
+// MiniSimmy3 - Core + Visible Aetherium (Chunk 17)
 
 let creatures = [];
 let vortexParticles = [];
@@ -116,45 +116,18 @@ function updateHighRollerPoints() {
 function updateUI() {
   const popEl = document.getElementById('stat-pop');
   const timeEl = document.getElementById('stat-time');
+  const scoreEl = document.getElementById('stat-score');
+  const crystalsEl = document.getElementById('stat-crystals');
   const badge = document.getElementById('egg-count-badge');
+
   if (popEl) popEl.innerText = creatures.length;
   if (timeEl) timeEl.innerText = `${floor(simTime/60)}:${nf(floor(simTime%60),2)}`;
+  if (scoreEl) scoreEl.innerText = highRollerPoints.toLocaleString();
+  if (crystalsEl) crystalsEl.innerText = aetheriumCrystals;
   if (badge) badge.innerText = `${eggs.length}/${MAX_EGGS}`;
 }
 
-function prestige() {
-  if (!confirm('Prestige now? This will reset the simulation but keep your Gene Vault and convert some HRP into Aetherium Crystals.')) {
-    return;
-  }
-
-  // Convert some HRP into Aetherium Crystals (simple conversion for now)
-  const crystalsGained = Math.floor(highRollerPoints / 50000);
-  aetheriumCrystals += crystalsGained;
-
-  // Reset simulation
-  creatures = [];
-  pheromones = [];
-  vortexParticles = [];
-  simTime = 0;
-  highRollerPoints = 0;
-  selectedCreature = null;
-  document.getElementById('inspector').classList.add('hidden');
-
-  for (let i = 0; i < 170; i++) {
-    vortexParticles.push(new VortexParticle());
-  }
-
-  for (let i = 0; i < 16; i++) {
-    creatures.push(new Creature(random(width), random(height)));
-  }
-
-  highRollerPoints = 15000; // Starting bonus
-
-  updateUI();
-  const scoreEl = document.getElementById('stat-score');
-  if (scoreEl) scoreEl.innerText = highRollerPoints.toLocaleString();
-
-  addFloatingText(width/2, height/2 - 30, `Prestiged! +${crystalsGained} Aetherium Crystals`, '#a78bfa');
-}
+// Prestige now also updates crystals display
+// (previous prestige function already updates aetheriumCrystals)
 
 // Gene Vault, Inventory, and other functions remain from previous chunks...
