@@ -3,28 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MiniSimmy2 - Split Test</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2334d399'/%3E%3Ccircle cx='50' cy='50' r='22' fill='%230a0a0f'/%3E%3C/svg%3E" />
+  <title>MiniSimmy2 - Split Test (Runnable)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/p5@1.11.3/lib/p5.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
 <body class="bg-[#0a0a0f] text-[#e0e0ea]">
-  <!-- Content will be injected by the original script for now -->
-  <div id="canvas-container"></div>
 
-  <!-- Scripts will be loaded in order -->
+  <div class="mx-auto max-w-[860px] pt-4">
+    <div id="canvas-container" class="mx-auto w-[820px] rounded-3xl border border-white/10 overflow-hidden shadow-2xl"></div>
+
+    <div class="mx-auto mt-2 w-[820px] text-center text-xs text-white/40">
+      Space = Pause • +/- = Speed • Click creature to inspect
+    </div>
+  </div>
+
+  <!-- Load split scripts in order -->
   <script src="js/globals.js"></script>
   <script src="js/creatures/Creature.js"></script>
   <script src="js/creatures/VortexParticle.js"></script>
   <script src="js/systems/audio.js"></script>
   <script src="js/systems/economy.js"></script>
-  <script src="js/systems/prestige.js"></script>
-  <script src="js/systems/furnace.js"></script>
-  <script src="js/ui/modals.js"></script>
-  <script src="js/core/setup.js"></script>
-  <script src="js/core/draw.js"></script>
+  <script src="js/systems/hazards.js"></script>
+  <script src="js/utils/floating-text.js"></script>
   <script src="js/main.js"></script>
+
 </body>
 </html>
