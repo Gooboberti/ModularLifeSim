@@ -1,14 +1,12 @@
-// ==================== SAVING SYSTEM (Chunk 28-29) ====================
-// Clean, well-commented foundation for egg persistence.
-// Supports: localStorage auto-save + manual JSON Export/Import
-// Designed for future expansion to full game state and Ranch game integration.
+// ==================== SAVING SYSTEM (Updated Chunk 30) ====================
+// Auto-save is now hooked into key egg actions for seamless persistence.
 
 // Save eggs to localStorage (auto-save)
 function saveEggsToLocalStorage() {
   try {
     localStorage.setItem('minisimmy3_eggs', JSON.stringify(eggs));
   } catch (e) {
-    console.warn('Could not save eggs to localStorage:', e);
+    console.warn('[MiniSimmy3] Could not save eggs to localStorage:', e);
   }
 }
 
@@ -18,10 +16,10 @@ function loadEggsFromLocalStorage() {
     const saved = localStorage.getItem('minisimmy3_eggs');
     if (saved) {
       eggs = JSON.parse(saved);
-      console.log('%c[MiniSimmy3] Loaded eggs from localStorage', 'color:#64748b');
+      console.log('%c[MiniSimmy3] Loaded saved eggs from localStorage', 'color:#64748b');
     }
   } catch (e) {
-    console.warn('Could not load eggs from localStorage:', e);
+    console.warn('[MiniSimmy3] Could not load eggs from localStorage:', e);
     eggs = [];
   }
 }
@@ -43,7 +41,7 @@ function exportEggs() {
   linkElement.setAttribute('download', exportFileDefaultName);
   linkElement.click();
 
-  addFloatingText(width/2, 100, "Eggs exported!", '#fbbf24');
+  addFloatingText(width/2, 100, "Eggs exported successfully", '#fbbf24');
 }
 
 // Import eggs from JSON file
@@ -56,43 +54,88 @@ function importEggs(event) {
     try {
       const importedEggs = JSON.parse(e.target.result);
       if (Array.isArray(importedEggs)) {
-        // Merge imported eggs (avoid duplicates by name + generation for now)
-        const existingNames = new Set(eggs.map(e => e.name + e.generation));
+        const existingKeys = new Set(eggs.map(e => `${e.name}-${e.generation}`));
         let added = 0;
 
         for (let egg of importedEggs) {
-          const key = egg.name + egg.generation;
-          if (!existingNames.has(key) && eggs.length < MAX_EGGS) {
+          const key = `${egg.name}-${egg.generation}`;
+          if (!existingKeys.has(key) && eggs.length < MAX_EGGS) {
             eggs.push(egg);
-            existingNames.add(key);
+            existingKeys.add(key);
             added++;
           }
         }
 
+        autoSaveEggs();
         updateUI();
         showInventory();
-        addFloatingText(width/2, 100, `Imported ${added} eggs`, '#10b981');
+        addFloatingText(width/2, 100, `Imported ${added} egg(s)`, '#10b981');
       }
     } catch (err) {
-      alert("Failed to import eggs. Invalid file.");
+      alert("Failed to import eggs. The file may be invalid.");
     }
   };
   reader.readAsText(file);
-  // Reset file input so same file can be imported again if needed
   event.target.value = '';
 }
 
-// Auto-save eggs whenever they change (called after extract/move/delete)
+// Auto-save wrapper (call this after any egg change)
 function autoSaveEggs() {
   saveEggsToLocalStorage();
 }
 
-// Hook into existing functions to auto-save
-// (We will integrate these calls in future chunks for cleanliness)
-// For now the system is ready and functional.
+// ==================== HOOK AUTO-SAVE INTO EGG ACTIONS ====================
 
-// Load saved eggs when the game starts (called from setup or early in draw)
-// Already called in the improved index.html setup flow.
+// Modified version of extractCreatureToEgg that auto-saves
+function extractCreatureToEgg() {
+  if (!selectedCreature) return;
+  if (eggs.length >= MAX_EGGS) {
+    alert("Inventory is full (max 10 eggs).");
+    return;
+  }
 
-// Note: Future expansion can include full game state saving (HRP, Aetherium, Gene Vault, etc.)
-// This egg-focused system is designed to be easily extended.
+  const eggData = {
+    name: selectedCreature.name,
+    generation: selectedCreature.generation,
+    modules: JSON.parse(JSON.stringify(selectedCreature.modules)),
+    killCount: selectedCreature.killCount || 0,
+    childrenCount: selectedCreature.childrenCount || 0
+  };
+
+  eggs.push(eggData);
+
+  const index = creatures.indexOf(selectedCreature);
+  if (index > -1) creatures.splice(index, 1);
+
+  selectedCreature = null;
+  document.getElementById('inspector').classList.add('hidden');
+
+  autoSaveEggs();           // <-- Auto-save after extraction
+  updateUI();
+  addFloatingText(width/2, 80, "Egg extracted to Inventory!", '#fbbf24');
+}
+
+// Modified version of moveEggToVault that auto-saves
+function moveEggToVault(eggIndex) {
+  if (geneVaultSlots.filter(s => s !== null).length >= 2) {
+    alert("Gene Vault is full (only 2 slots unlocked).");
+    return;
+  }
+
+  const egg = eggs[eggIndex];
+  for (let i = 0; i < 2; i++) {
+    if (!geneVaultSlots[i]) {
+      geneVaultSlots[i] = egg;
+      eggs.splice(eggIndex, 1);
+      autoSaveEggs();       // <-- Auto-save after moving to vault
+      hideInventory();
+      showGeneVault();
+      return;
+    }
+  }
+}
+
+// Note: deleteEgg function (if implemented later) should also call autoSaveEggs()
+
+// Load saved eggs when the simulation starts
+// This is called early so eggs persist across browser sessions.
