@@ -1,4 +1,4 @@
-// MiniSimmy3 - Core + Extract to Egg in Inspector (Chunk 15)
+// MiniSimmy3 - Core + Aetherium + Improved Prestige (Chunk 16)
 
 let creatures = [];
 let vortexParticles = [];
@@ -12,6 +12,7 @@ let simTime = 0;
 let isDay = true;
 let selectedCreature = null;
 let highRollerPoints = 0;
+let aetheriumCrystals = 0;
 let lastScoreUpdate = 0;
 
 const MAX_EGGS = 10;
@@ -121,78 +122,39 @@ function updateUI() {
   if (badge) badge.innerText = `${eggs.length}/${MAX_EGGS}`;
 }
 
-function updateInspector() {
-  if (!selectedCreature) return;
-  const c = selectedCreature;
-
-  document.getElementById('inspect-name').innerText = c.name;
-  document.getElementById('inspect-role').innerText = c.role || c.specialization;
-  document.getElementById('inspect-gen').innerText = c.generation;
-  document.getElementById('inspect-energy').innerText = Math.floor(c.energy);
-  document.getElementById('inspect-module-count').innerText = c.modules.length;
-
-  const modContainer = document.getElementById('inspect-modules');
-  modContainer.innerHTML = '';
-
-  if (c.modules.length === 0) {
-    modContainer.innerHTML = `<div class="text-white/50">No modules</div>`;
-  } else {
-    c.modules.forEach(m => {
-      const tier = m.tier || 1;
-      const div = document.createElement('div');
-      div.className = 'flex justify-between text-xs py-px';
-      div.innerHTML = `
-        <span style="color: ${m.color}">${m.type}</span>
-        <span class="text-amber-400">T${tier}</span>
-      `;
-      modContainer.appendChild(div);
-    });
-  }
-
-  // Add Extract to Egg button if not already present
-  let extractBtn = document.getElementById('extract-egg-btn');
-  if (!extractBtn) {
-    extractBtn = document.createElement('button');
-    extractBtn.id = 'extract-egg-btn';
-    extractBtn.className = 'mt-3 w-full flex items-center justify-center gap-x-2 px-3 py-2 bg-amber-500/90 hover:bg-amber-500 rounded-2xl text-xs font-medium text-[#05070f] transition-colors';
-    extractBtn.innerHTML = `<i class="fa-solid fa-egg"></i> <span>Extract to Egg (Inventory)</span>`;
-    extractBtn.onclick = () => {
-      extractCreatureToEgg();
-    };
-    // Insert after modules list
-    const modulesSection = document.getElementById('inspect-modules').parentNode;
-    modulesSection.parentNode.appendChild(extractBtn);
-  }
-}
-
-// ==================== EXTRACT TO EGG ====================
-function extractCreatureToEgg() {
-  if (!selectedCreature) return;
-  if (eggs.length >= MAX_EGGS) {
-    alert("Inventory is full (max 10 eggs).");
+function prestige() {
+  if (!confirm('Prestige now? This will reset the simulation but keep your Gene Vault and convert some HRP into Aetherium Crystals.')) {
     return;
   }
 
-  const eggData = {
-    name: selectedCreature.name,
-    generation: selectedCreature.generation,
-    modules: JSON.parse(JSON.stringify(selectedCreature.modules)),
-    killCount: selectedCreature.killCount || 0,
-    childrenCount: selectedCreature.childrenCount || 0
-  };
+  // Convert some HRP into Aetherium Crystals (simple conversion for now)
+  const crystalsGained = Math.floor(highRollerPoints / 50000);
+  aetheriumCrystals += crystalsGained;
 
-  eggs.push(eggData);
-
-  // Remove from simulation
-  const index = creatures.indexOf(selectedCreature);
-  if (index > -1) creatures.splice(index, 1);
-
-  const removedCreature = selectedCreature;
+  // Reset simulation
+  creatures = [];
+  pheromones = [];
+  vortexParticles = [];
+  simTime = 0;
+  highRollerPoints = 0;
   selectedCreature = null;
   document.getElementById('inspector').classList.add('hidden');
 
+  for (let i = 0; i < 170; i++) {
+    vortexParticles.push(new VortexParticle());
+  }
+
+  for (let i = 0; i < 16; i++) {
+    creatures.push(new Creature(random(width), random(height)));
+  }
+
+  highRollerPoints = 15000; // Starting bonus
+
   updateUI();
-  addFloatingText(removedCreature.x, removedCreature.y - 20, "Egg extracted!", '#fbbf24');
+  const scoreEl = document.getElementById('stat-score');
+  if (scoreEl) scoreEl.innerText = highRollerPoints.toLocaleString();
+
+  addFloatingText(width/2, height/2 - 30, `Prestiged! +${crystalsGained} Aetherium Crystals`, '#a78bfa');
 }
 
-// Gene Vault, Inventory, Prestige functions remain from previous chunks...
+// Gene Vault, Inventory, and other functions remain from previous chunks...
