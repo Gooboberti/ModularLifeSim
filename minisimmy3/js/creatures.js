@@ -1,4 +1,4 @@
-// MiniSimmy3 - Creature Class (with Pheromone & Social behavior)
+// MiniSimmy3 - Creature Class with Module Effects
 
 class Creature {
   constructor(x, y, parentModules = null, generation = 1, parentTraits = null) {
@@ -11,6 +11,7 @@ class Creature {
     this.childrenCount = 0;
     this.reproCooldown = 0;
     this.specialization = 'balanced';
+    this.role = 'Balanced';
 
     if (parentTraits) {
       this.traits = { ...parentTraits };
@@ -37,10 +38,16 @@ class Creature {
   getTieredModuleCount(type){ return this.modules.filter(m=>m.type===type).reduce((s,m)=>s+(m.tier||1),0); }
 
   updateSpecialization() {
-    if(this.modules.length===0){ this.specialization='balanced'; return; }
+    if(this.modules.length===0){ this.specialization='balanced'; this.role='Balanced'; return; }
     let counts={}; for(let m of this.modules) counts[m.type]=(counts[m.type]||0)+(m.tier||1);
     let maxT=null, maxC=0; for(let t in counts) if(counts[t]>maxC){maxC=counts[t]; maxT=t;}
     this.specialization = maxT || 'balanced';
+
+    // Set role name
+    const tiered = this.getTieredModuleCount(this.specialization);
+    if (tiered >= 3) this.role = 'Advanced ' + this.specialization;
+    else if (tiered >= 2) this.role = 'Specialized ' + this.specialization;
+    else this.role = this.specialization.charAt(0).toUpperCase() + this.specialization.slice(1);
   }
 
   reproduce() {
@@ -49,43 +56,48 @@ class Creature {
 
   update(isDay, vortexDir, vortexStrength, timeScale=1, pheromones=[]) {
     if(this.reproCooldown>0) this.reproCooldown--;
-    this.energy -= 0.25 * timeScale;
 
-    // Zone attraction
+    // Base energy drain (Resistant reduces it)
+    let drain = 0.25;
+    const resistantBonus = this.getTieredModuleCount('resistant') * 0.035;
+    this.energy -= (drain - resistantBonus) * timeScale;
+
+    // Zone attraction (Harvester bonus)
     let tgt = isDay ? greenZone : blueZone;
     let d = dist(this.x,this.y,tgt.x,tgt.y);
     if(d>10){
-      let pull = 0.042 + this.getTieredModuleCount('harvester')*0.007;
+      let pull = 0.042 + this.getTieredModuleCount('harvester') * 0.012;
       this.vx += (tgt.x-this.x)/d * pull;
       this.vy += (tgt.y-this.y)/d * pull;
     }
 
-    // Vortex
+    // Vortex escape (Mover + Explorer bonus)
     let cdist = dist(this.x,this.y,centerX,centerY);
     if(cdist>15 && cdist<390){
       let tx=-(this.y-centerY), ty=this.x-centerX;
       let len=sqrt(tx*tx+ty*ty)||1;
-      let vF = 0.6 * vortexStrength * vortexDir * (1-(this.traits.vortexResistance-1)*0.28);
+      let escapeBonus = (this.getTieredModuleCount('mover') + this.getTieredModuleCount('explorer')) * 0.08;
+      let vF = (0.55 + escapeBonus) * vortexStrength * vortexDir * (1-(this.traits.vortexResistance-1)*0.25);
       this.vx += (tx/len)*vF; this.vy += (ty/len)*vF;
-      let pull=0.3*vortexStrength;
+
+      let pull=0.28*vortexStrength;
       this.vx += (centerX-this.x)*pull/(cdist+6);
       this.vy += (centerY-this.y)*pull/(cdist+6);
     }
 
-    // Pheromone attraction (social behavior)
-    let pSense = this.traits.pheromoneSensitivity;
+    // Pheromone attraction + deposit (Communicator bonus)
+    let pSense = this.traits.pheromoneSensitivity + this.getTieredModuleCount('communicator') * 0.08;
     for(let p of pheromones){
       let pd = dist(this.x,this.y,p.x,p.y);
-      if(pd < 65 && pd > 3){
-        let str = map(pd,3,65,0.9,0.15) * pSense * 0.8;
+      if(pd < 70 && pd > 3){
+        let str = map(pd,3,70,1.1,0.18) * pSense * 0.75;
         this.vx += (p.x - this.x)/pd * str;
         this.vy += (p.y - this.y)/pd * str;
       }
     }
 
-    // Deposit pheromone occasionally
-    if(random() < 0.012 * timeScale && this.getModuleCount('communicator') > 0){
-      pheromones.push({x:this.x, y:this.y, life: 180 + random(60), isGreen: isDay});
+    if(random() < 0.014 * timeScale && this.getTieredModuleCount('communicator') > 0){
+      pheromones.push({x:this.x, y:this.y, life: 200 + random(80), isGreen: isDay});
     }
 
     // Apply velocity
