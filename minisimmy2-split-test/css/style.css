@@ -1,0 +1,40 @@
+body { font-family: 'Inter', system-ui, sans-serif; }
+.font-display { font-family: 'Space Grotesk', 'Inter', sans-serif; font-weight: 600; }
+.time-btn { transition: all 0.1s ease; }
+.time-btn.active { background-color: #34d399; color: #0a0a0f; font-weight: 600; }
+.stat-value { font-variant-numeric: tabular-nums; }
+.inspector-label { font-size: 10px; color: #64748b; }
+.modal { animation: fadeInScale 0.2s ease forwards; }
+@keyframes fadeInScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+.hazard-cursor { cursor: none !important; }
+.env-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    pointer-events: none;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    z-index: 10;
+}
+.cheat-card {
+    transition: all 0.2s ease;
+}
+.cheat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+.unlock-btn {
+    transition: all 0.15s ease;
+}
+.unlock-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+@keyframes prestige-glow {
+    0%, 100% { box-shadow: 0 0 12px #c026ff, 0 0 24px #a21caf; }
+    50% { box-shadow: 0 0 22px #e879f9, 0 0 38px #c026ff; }
+}
