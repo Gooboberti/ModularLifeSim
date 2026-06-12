@@ -1,8 +1,9 @@
-// Note (Chunk 62):
-// updateUI() is called in draw() and after major actions like:
-// - Extracting to egg
-// - Moving egg to vault
-// - Deleting egg
-// - Prestige
-// - Loading progress
-// This ensures the top bar and egg badge stay accurate at all times.
+// Note (Chunk 63):
+// autoSaveEggs() should be called after any action that modifies eggs or geneVaultSlots.
+// Current call sites:
+// - extractCreatureToEgg()
+// - moveEggToVault()
+// - deleteEgg()
+// - prestige()
+// - burnCrystals() / import actions
+// This ensures progress is never lost.
