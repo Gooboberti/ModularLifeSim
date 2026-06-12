@@ -8,11 +8,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/p5@1.11.3/lib/p5.min.js"></script>
   <link rel="stylesheet" href="css/style.css" />
-  <style>
-    .modal { box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4); }
-    .inspector-label { font-size: 10px; letter-spacing: 0.5px; color: #64748b; text-transform: uppercase; }
-    .top-stat { transition: all 0.1s ease; }
-  </style>
 </head>
 <body class="bg-[#0a0a0f] text-[#e0e0ea]">
   <div class="max-w-screen-2xl mx-auto p-4">
@@ -25,18 +20,18 @@
           </div>
           <div>
             <span class="font-display text-3xl tracking-tighter font-semibold">MiniSimmy3</span>
-            <span class="ml-2 text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full font-mono">v0.25</span>
+            <span class="ml-2 text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full font-mono">v0.32</span>
           </div>
         </div>
       </div>
 
       <div class="flex items-center gap-x-6 text-sm">
         <div class="flex items-center gap-x-4">
-          <div class="flex items-baseline gap-x-1.5 top-stat">
+          <div class="flex items-baseline gap-x-1.5">
             <span class="text-white/50 text-xs">POP</span>
             <span id="stat-pop" class="font-mono font-semibold text-emerald-400 text-lg">18</span>
           </div>
-          <div class="flex items-baseline gap-x-1.5 top-stat">
+          <div class="flex items-baseline gap-x-1.5">
             <span class="text-white/50 text-xs">TIME</span>
             <span id="stat-time" class="font-mono font-semibold text-emerald-400 text-lg">00:00</span>
           </div>
@@ -45,11 +40,11 @@
         <div class="h-5 w-px bg-white/10"></div>
 
         <div class="flex items-center gap-x-4">
-          <div class="flex items-baseline gap-x-1.5 top-stat">
+          <div class="flex items-baseline gap-x-1.5">
             <span class="text-white/50 text-xs">HRP</span>
             <span id="stat-score" class="font-mono font-semibold text-amber-400 text-lg">0</span>
           </div>
-          <div class="flex items-baseline gap-x-1.5 top-stat">
+          <div class="flex items-baseline gap-x-1.5">
             <span class="text-pink-400/70 text-xs">AETH</span>
             <span id="stat-crystals" class="font-mono font-semibold text-pink-400 text-lg">0</span>
           </div>
@@ -96,7 +91,7 @@
 
     <div id="canvas-container" class="mx-auto w-[820px] rounded-3xl border border-white/10 overflow-hidden shadow-2xl"></div>
 
-    <!-- Inspector -->
+    <!-- Creature Inspector -->
     <div id="inspector" class="hidden mt-3 mx-auto w-[820px] bg-[#121218] border border-white/10 rounded-2xl p-4">
       <div class="flex justify-between items-start mb-3">
         <div>
@@ -125,6 +120,15 @@
         <div class="inspector-label mb-1">Modules</div>
         <div id="inspect-modules" class="text-xs bg-white/5 rounded-xl p-2.5 max-h-20 overflow-auto space-y-0.5"></div>
       </div>
+    </div>
+
+    <!-- Game Guide Button (replaces old Legend button) -->
+    <div class="mt-3 mx-auto w-[820px] flex justify-end">
+      <button onclick="showGameGuide()"
+              class="flex items-center gap-x-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-2xl text-xs transition-colors">
+        <i class="fa-solid fa-book"></i>
+        <span>Game Guide</span>
+      </button>
     </div>
 
     <!-- Gene Vault Modal -->
@@ -204,6 +208,156 @@
         </div>
       </div>
     </div>
+
+    <!-- ==================== GAME GUIDE MODAL ==================== -->
+    <div id="game-guide-modal" onclick="hideGameGuide()" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[110]">
+      <div onclick="event.stopImmediatePropagation()" class="modal bg-[#121218] border border-white/10 rounded-3xl max-w-5xl w-full mx-4 max-h-[92vh] overflow-auto p-8">
+        
+        <div class="flex justify-between items-start mb-6">
+          <div>
+            <h2 class="text-3xl font-semibold flex items-center gap-x-3">
+              <i class="fa-solid fa-book text-emerald-400"></i>
+              <span>MiniSimmy3 Game Guide</span>
+            </h2>
+            <p class="text-white/60 mt-1">Complete reference for mechanics, systems, and progression</p>
+          </div>
+          <button onclick="hideGameGuide()" class="text-3xl leading-none text-white/60 hover:text-white">&times;</button>
+        </div>
+
+        <!-- Overview -->
+        <div class="mb-10">
+          <h3 class="text-xl font-semibold mb-3 flex items-center gap-x-2 text-emerald-400">
+            <i class="fa-solid fa-info-circle"></i> Overview
+          </h3>
+          <p class="text-white/80 leading-relaxed">
+            MiniSimmy3 is a modular creature evolution simulation. Creatures move through a vortex, gather energy from food zones, reproduce, and evolve through modules. 
+            Your goal is to develop strong bloodlines, preserve them in the Gene Vault, and progress through Prestige and the Furnace economy.
+          </p>
+        </div>
+
+        <!-- The Simulation -->
+        <div class="mb-10">
+          <h3 class="text-xl font-semibold mb-3 flex items-center gap-x-2 text-emerald-400">
+            <i class="fa-solid fa-globe"></i> The Simulation
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h4 class="font-semibold mb-2">Vortex</h4>
+              <p class="text-white/80 text-sm">A powerful spiraling force pulls creatures toward the center. Mover and Explorer modules help creatures resist or escape it.</p>
+            </div>
+            <div>
+              <h4 class="font-semibold mb-2">Food Zones</h4>
+              <p class="text-white/80 text-sm">Green zone (day) and Blue zone (night). Creatures are attracted to them. Harvester modules increase attraction strength.</p>
+            </div>
+            <div>
+              <h4 class="font-semibold mb-2">Energy &amp; Reproduction</h4>
+              <p class="text-white/80 text-sm">Creatures lose energy over time. When they have high energy and low cooldown, they reproduce. Resistant modules reduce energy drain.</p>
+            </div>
+            <div>
+              <h4 class="font-semibold mb-2">Pheromones</h4>
+              <p class="text-white/80 text-sm">Communicator modules cause creatures to release pheromones that attract others, creating social grouping behavior.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modules -->
+        <div class="mb-10">
+          <h3 class="text-xl font-semibold mb-3 flex items-center gap-x-2 text-emerald-400">
+            <i class="fa-solid fa-puzzle-piece"></i> Modules &amp; Specializations
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+            <div class="bg-white/5 rounded-2xl p-4">
+              <div class="font-semibold text-emerald-400">Harvester</div>
+              <div class="text-white/70 text-xs mt-1">Stronger attraction to food zones. Excellent for energy gain.</div>
+            </div>
+            <div class="bg-white/5 rounded-2xl p-4">
+              <div class="font-semibold text-sky-400">Sensor</div>
+              <div class="text-white/70 text-xs mt-1">Detects and avoids predators. Provides awareness and survival advantage.</div>
+            </div>
+            <div class="bg-white/5 rounded-2xl p-4">
+              <div class="font-semibold text-violet-400">Mover</div>
+              <div class="text-white/70 text-xs mt-1">Better vortex escape. Helps creatures resist being pulled to the center.</div>
+            </div>
+            <div class="bg-white/5 rounded-2xl p-4">
+              <div class="font-semibold text-pink-400">Resistant</div>
+              <div class="text-white/70 text-xs mt-1">Reduces energy drain. Very strong for long-term survival.</div>
+            </div>
+            <div class="bg-white/5 rounded-2xl p-4">
+              <div class="font-semibold text-yellow-400">Explorer</div>
+              <div class="text-white/70 text-xs mt-1">Encourages spreading out and exploration. Good for genetic diversity.</div>
+            </div>
+            <div class="bg-white/5 rounded-2xl p-4">
+              <div class="font-semibold text-purple-400">Communicator</div>
+              <div class="text-white/70 text-xs mt-1">Releases pheromones that attract other creatures. Creates social behavior.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Predators -->
+        <div class="mb-10">
+          <h3 class="text-xl font-semibold mb-3 flex items-center gap-x-2 text-emerald-400">
+            <i class="fa-solid fa-skull"></i> Predators
+          </h3>
+          <p class="text-white/80 text-sm leading-relaxed">
+            Predators emerge under social pressure or through conversion. They hunt low-module creatures and can spread their status. 
+            Having Sensor modules helps creatures avoid them.
+          </p>
+        </div>
+
+        <!-- Gene Vault -->
+        <div class="mb-10">
+          <h3 class="text-xl font-semibold mb-3 flex items-center gap-x-2 text-emerald-400">
+            <i class="fa-solid fa-dna"></i> Gene Vault
+          </h3>
+          <p class="text-white/80 text-sm leading-relaxed">
+            The Gene Vault lets you preserve powerful creatures across Prestige resets. Extract strong creatures into eggs, store them in your Inventory, 
+            then move them into the Gene Vault. Only the first 2 slots are unlocked initially.
+          </p>
+        </div>
+
+        <!-- Economy -->
+        <div class="mb-10">
+          <h3 class="text-xl font-semibold mb-3 flex items-center gap-x-2 text-emerald-400">
+            <i class="fa-solid fa-coins"></i> Economy &amp; Furnace
+          </h3>
+          <div class="text-white/80 text-sm space-y-2">
+            <p><strong>High Roller Points (HRP)</strong>: Earned from simulation performance (population, predators, time).</p>
+            <p><strong>Aetherium Crystals</strong>: Gained when you Prestige. Converted from HRP.</p>
+            <p><strong>Furnace</strong>: Burn Aetherium Crystals to activate a powerful x100 score multiplier for 5 minutes.</p>
+          </div>
+        </div>
+
+        <!-- Prestige -->
+        <div class="mb-10">
+          <h3 class="text-xl font-semibold mb-3 flex items-center gap-x-2 text-emerald-400">
+            <i class="fa-solid fa-sync-alt"></i> Prestige
+          </h3>
+          <p class="text-white/80 text-sm leading-relaxed">
+            Prestige resets the simulation but preserves your Gene Vault. You convert some of your HRP into Aetherium Crystals. 
+            This is the main long-term progression system.
+          </p>
+        </div>
+
+        <!-- Saving -->
+        <div class="mb-10">
+          <h3 class="text-xl font-semibold mb-3 flex items-center gap-x-2 text-emerald-400">
+            <i class="fa-solid fa-save"></i> Saving Your Progress
+          </h3>
+          <p class="text-white/80 text-sm leading-relaxed">
+            Eggs are automatically saved to your browser. You can also manually Export your eggs as a JSON file and Import them later. 
+            This system is designed to carry your best creatures into future sessions or the upcoming Ranch game.
+          </p>
+        </div>
+
+        <div class="text-center mt-8 pt-6 border-t border-white/10">
+          <button onclick="hideGameGuide()" class="px-8 py-2.5 bg-white/10 hover:bg-white/20 rounded-2xl text-sm">
+            Close Guide
+          </button>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 
   <script src="js/utils.js"></script>
